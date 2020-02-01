@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,6 +21,7 @@ public class OI {
 	public Joystick driveController = new Joystick(RobotMap.DRIVE_PORT);
 	public Joystick acquisitionController = new Joystick(RobotMap.ACQUISITION_PORT);
 	public ADXRS450_Gyro gyro = null;
+   	public ColorSensorV3 colorSensor = null;
 
 	public WPI_TalonSRX left = null;
 	public WPI_TalonSRX right = null;

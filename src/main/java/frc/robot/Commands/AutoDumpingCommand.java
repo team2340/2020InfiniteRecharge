@@ -16,7 +16,6 @@ public class AutoDumpingCommand extends Command {
 		requires(Robot.dumping);
 	}
 
-	@Override
 	protected void execute() {
 		Robot.dumping.dumpingForward();
 	}

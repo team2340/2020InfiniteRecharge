@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -11,6 +13,8 @@ public class ControlPanelSubsystem extends Subsystem {
 
     private ControlPanelSubsystem() {
         create();
+        I2C.Port i2cPort = I2C.Port.kOnboard;
+        Robot.oi.colorSensor = new ColorSensorV3(i2cPort);
 	}
 
     public static ControlPanelSubsystem getInstance() {

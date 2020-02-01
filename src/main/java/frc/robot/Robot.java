@@ -7,17 +7,22 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Commands.AutoDriveForward;
 import frc.robot.Commands.AutoDumpingCommand;
 import frc.robot.Commands.Rotation;
 import frc.robot.RobotUtils.AutoMode;
+import frc.robot.subsystems.ControlPanelSubsystem;
 //import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 //import frc.robot.subsystems.ElevatorSubsystem;
@@ -26,6 +31,7 @@ import frc.robot.subsystems.DumpingSubsystem;
 public class Robot extends TimedRobot {
   public static final OI oi = new OI();
    public static DriveSubsystem drive = null;
+   public static ControlPanelSubsystem controlPanel = null;
   // public static AcquisitionSubsystem acquisition = null;
    //public static ControlPanelSubsystem controlPanel = null;
    public static DumpingSubsystem dumping = DumpingSubsystem.getInstance();
@@ -34,7 +40,6 @@ public class Robot extends TimedRobot {
    //public static final DebugLogger myLogger = new DebugLogger();
    SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();
    CommandGroup autonomousCommand = null;
-  
 
   /**
    * This function is run when the robot is first started up and should be
@@ -51,7 +56,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Autonomous Modes", autoMode);
 
     //CameraServer.getInstance().startAutomaticCapture();
-    drive = DriveSubsystem.getInstance();         
+    drive = DriveSubsystem.getInstance();
+    controlPanel = ControlPanelSubsystem.getInstance();
     // liftandramp = LonelyLiftSubsystem.getInstance();
     //elevator = ElevatorSubsystem.getInstance();
     //arm = ArmSubsystem.getInstance();
@@ -65,6 +71,12 @@ public void teleopInit() {
 
   @Override
   public void robotPeriodic() {
+    double IR = oi.colorSensor.getIR();
+    Color detectedColor = oi.colorSensor.getColor();
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("IR", IR);
   }
 
   @Override
