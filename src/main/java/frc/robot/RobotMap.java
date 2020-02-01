@@ -33,8 +33,7 @@ public class RobotMap {
 		public static final int RIGHT_TAL_ID = 6;
 		public static final int LEFT_TAL_ID = 8;
 		//Acquisition Ids
-		public static final int ELEVATOR_NEO_ID = 50; // Elevator is 5-neo
-		public static final int ELEVATOR2_NEO_ID = 55;//-neo
+		public static final int CLIMB_TALON_ID = 50; // Elevator is 5-neo
 		public static final int LIFT_TAL_ID = 5; //was 3, currently not in use
 		public static final int ARM_TAL_ID = 7;	
 		public static final int ACQUISITION_TAL_ID = 100;

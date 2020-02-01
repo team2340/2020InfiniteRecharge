@@ -30,7 +30,6 @@ public class DumpingSubsystem extends Subsystem {
     }
 
     
-    
     public void dumpingForward(){
         Robot.oi.dumping.set(1);
     }

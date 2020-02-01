@@ -18,13 +18,13 @@ public class AutoDumpingCommand extends Command {
 
 	@Override
 	protected void execute() {
-		//Robot.dumping.move(-1);
+		Robot.dumping.dumpingForward();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (System.currentTimeMillis() >= (startTime + 4000)) {
-		//	Robot.dumping
+		if (System.currentTimeMillis() >= (startTime + 4000/*the time that the dumping motor runs*/)) {
+			Robot.dumping.dumpingStop();
 			return true;
 		}
 		else {

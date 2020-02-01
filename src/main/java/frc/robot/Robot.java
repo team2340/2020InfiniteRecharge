@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Commands.AutoDriveForward;
+import frc.robot.Commands.AutoDumpingCommand;
+import frc.robot.Commands.Rotation;
 import frc.robot.RobotUtils.AutoMode;
 //import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -25,7 +28,7 @@ public class Robot extends TimedRobot {
    public static DriveSubsystem drive = null;
   // public static AcquisitionSubsystem acquisition = null;
    //public static ControlPanelSubsystem controlPanel = null;
-   public static DumpingSubsystem dumping = null;
+   public static DumpingSubsystem dumping = DumpingSubsystem.getInstance();
    //public static ArmSubsystem arm = null;
    //public static ClimbSubsystem climb = null;
    //public static final DebugLogger myLogger = new DebugLogger();
@@ -76,6 +79,12 @@ public void teleopInit() {
       autonomousCommand = new CommandGroup();
     }
     else if(am==AutoMode.DriveForward){
+      AutoDriveForward drive5 = new AutoDriveForward (5); //We need to know unit
+      Rotation rotate70 = new Rotation (70);
+
+
+      autonomousCommand.addSequential(drive5);
+      autonomousCommand.addSequential(rotate70);
     }
     autonomousCommand.start();
   }

@@ -23,13 +23,11 @@ public class ClimbSubsystem extends Subsystem {
 	private void create() {
 		try {
 			Robot.oi.climb = new WPI_TalonSRX(RobotMap.CLIMB_TAL_ID);//change to new talon
-			Robot.oi.left.setSensorPhase(true);
+			// Robot.oi.left.setSensorPhase(true);
 		} catch (Exception ex) {
 			System.out.println("createClimb FAILED");
 		}
     }
-
-    
     
     public void climbForward(){
         Robot.oi.climb.set(1);
@@ -39,13 +37,12 @@ public class ClimbSubsystem extends Subsystem {
         Robot.oi.climb.set(-1);
     }
     
-    public void controlPaneStop(){
+    public void climbStop(){
         Robot.oi.climb.set(0);
     }
 
-
     @Override
     protected void initDefaultCommand() {
-       // setDefaultCommand(new ControlPaneCommand());
+       // setDefaultCommand(new ClimbCommand());
     }
 }
