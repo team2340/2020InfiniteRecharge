@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -77,6 +78,7 @@ public void teleopInit() {
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("IR", IR);
+    ColorMatch.makeColor(0.143, 0.427, 0.429);
   }
 
   @Override
