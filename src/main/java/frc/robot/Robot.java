@@ -8,10 +8,7 @@
 package frc.robot;
 
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
