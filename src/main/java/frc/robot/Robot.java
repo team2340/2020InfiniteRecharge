@@ -8,10 +8,7 @@
 package frc.robot;
 
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -39,6 +36,7 @@ public class Robot extends TimedRobot {
    //public static ArmSubsystem arm = null;
    //public static ClimbSubsystem climb = null;
    //public static final DebugLogger myLogger = new DebugLogger();
+   public static SendableChooser<Integer> judgesTargetColor = new SendableChooser<Integer>();
    SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();
    CommandGroup autonomousCommand = null;
 
@@ -55,6 +53,13 @@ public class Robot extends TimedRobot {
 		autoMode.addOption("CloseToPowerPort", AutoMode.CloseToPowerPort); // One option of starting point during Autonomous
 		autoMode.addOption("FarFromPowerPort", AutoMode.FarFromPowerPort); // One option of starting point during Autonomous
 		SmartDashboard.putData("Autonomous Modes", autoMode);
+    
+    judgesTargetColor.setDefaultOption("unknown", 0);
+    judgesTargetColor.addOption("yellow", 1);
+    judgesTargetColor.addOption("red", 2);
+    judgesTargetColor.addOption("green", 3);
+    judgesTargetColor.addOption("blue", 4);
+    SmartDashboard.putData("judges' Target Color", judgesTargetColor);
 
     //CameraServer.getInstance().startAutomaticCapture();
     drive = DriveSubsystem.getInstance();
