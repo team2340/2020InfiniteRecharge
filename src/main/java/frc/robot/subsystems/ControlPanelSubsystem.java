@@ -54,7 +54,7 @@ public class ControlPanelSubsystem extends Subsystem {
         Robot.oi.controlPanel.set(-1);
     }
     
-    public void controlPaneStop(){
+    public void controlPanelStop(){
         Robot.oi.controlPanel.set(0);
     }
 

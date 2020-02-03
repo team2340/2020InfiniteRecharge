@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
    //public static ArmSubsystem arm = null;
    //public static ClimbSubsystem climb = null;
    //public static final DebugLogger myLogger = new DebugLogger();
+   public static SendableChooser<Integer> judgesTargetColor = new SendableChooser<Integer>();
    SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();
    CommandGroup autonomousCommand = null;
 
@@ -54,7 +55,14 @@ public class Robot extends TimedRobot {
     autoMode.addOption("Middle", AutoMode.Middle);
 		autoMode.addOption("Home", AutoMode.Home);
 		autoMode.addOption("Test", AutoMode.Test);
-		SmartDashboard.putData("Autonomous Modes", autoMode);
+    SmartDashboard.putData("Autonomous Modes", autoMode);
+    
+    judgesTargetColor.setDefaultOption("unknown", 0);
+    judgesTargetColor.addOption("yellow", 1);
+    judgesTargetColor.addOption("red", 2);
+    judgesTargetColor.addOption("green", 3);
+    judgesTargetColor.addOption("blue", 4);
+    SmartDashboard.putData("judges' Target Color", judgesTargetColor);
 
     //CameraServer.getInstance().startAutomaticCapture();
     drive = DriveSubsystem.getInstance();
