@@ -12,7 +12,7 @@ public class AutoDriveForward extends Command {
 	double desiredSpot = 0;
 	double distance = 0;
 
-	public AutoDriveForward(double howFar) {
+	public AutoDriveForward(double howFar /*unit: inches*/ ) {
 		requires(Robot.drive);
 		distance = howFar-(.5*RobotUtils.getLengthOfRobot());
 	}

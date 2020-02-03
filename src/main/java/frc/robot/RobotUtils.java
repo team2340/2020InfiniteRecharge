@@ -14,9 +14,9 @@ public class RobotUtils {
 	public enum AutoMode {
 		DISABLED,
 		DriveForward,
-		Home,
-		Test,
-		Middle
+		CloseToPowerPort,
+		FarFromPowerPort,
+		MiddleToPowerPort
 	}
 
 	
