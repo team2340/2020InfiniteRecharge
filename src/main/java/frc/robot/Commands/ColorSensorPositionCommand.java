@@ -25,8 +25,6 @@ public class ColorSensorPositionCommand extends Command {
 		requires(Robot.controlPanel);
 	}
 
-
-
 	@Override
 	protected void initialize() {
         //find the number of wedges depending on the target color input.
@@ -56,15 +54,15 @@ public class ColorSensorPositionCommand extends Command {
 
         //find the number of wedges that we need to go across
         //match.color is the color closet to the RGB detected by the sensor.
-        ColorMatchResult match = Robot.controlPanel.m_colorMatcher.matchClosestColor(detectedColor);
+        ColorMatchResult match = Robot.controlPanel.matchClosestColor(detectedColor);
         if (match.color == Robot.controlPanel.kBlueTarget) {
-            wedgeNumber = ourTargetColor - blue ;
+            wedgeNumber = ourTargetColor - blue;
           } else if (match.color == Robot.controlPanel.kRedTarget) {
-            wedgeNumber = ourTargetColor - red ;
+            wedgeNumber = ourTargetColor - red;
           } else if (match.color == Robot.controlPanel.kGreenTarget) {
-            wedgeNumber = ourTargetColor - green ;
+            wedgeNumber = ourTargetColor - green;
           } else if (match.color == Robot.controlPanel.kYellowTarget) {
-            wedgeNumber = ourTargetColor - yellow ;
+            wedgeNumber = ourTargetColor - yellow;
           } else {
             wedgeNumber = ourTargetColor;
           }

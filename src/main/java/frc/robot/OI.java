@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -26,7 +27,7 @@ public class OI {
 	public WPI_TalonSRX left = null;
 	public WPI_TalonSRX right = null;
 	public WPI_TalonSRX acquisition = null;
-	public WPI_TalonSRX controlPanel = null;
+	public CANSparkMax controlPanel = null;
 	public WPI_TalonSRX dumping = null;
 	// public CANSparkMax elevator1 = null;
 	public WPI_TalonSRX climb = null;
