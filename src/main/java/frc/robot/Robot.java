@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
 
     //CameraServer.getInstance().startAutomaticCapture();
     drive = DriveSubsystem.getInstance();
-    controlPanel = ControlPanelSubsystem.getInstance();
+    // controlPanel = ControlPanelSubsystem.getInstance();
     // liftandramp = LonelyLiftSubsystem.getInstance();
     //elevator = ElevatorSubsystem.getInstance();
     //arm = ArmSubsystem.getInstance();
@@ -111,10 +111,12 @@ public void teleopInit() {
     double x = 0; //TODO: robot length plus the bumper's thickness
     double y = 0; //TODO: robot width plus the bumper's thickness
     double T = 39.71; //Vertical distance between the first triangle’s bottom and the middle line of the whole field (inches)
+    double B = 56; //Vertical distance between bottom corner of power port and random point on player station that lines up with trench = B ; equal to width of Trench
     double shootDistance = 0;
 
-    // Starting point: facing forward,
-        //Left side lining w/ the edge of Trench, 4 ft 8 in away from the right wall
+    //Option 1
+        //Starting point: facing forward,
+        //Left side of robot lining w/ the edge of Trench, 4 ft 8 in away from the right wall
         //Center of robot on the initial line
     /*else*/ if(am == AutoMode.FarFromPowerPort){
       //Cross the line
@@ -125,29 +127,67 @@ public void teleopInit() {
       //Go to shoot
       Rotation turnLeft90 = new Rotation (-90);
       AutoDriveForward driveTillFrontOfPort = new AutoDriveForward((.5)*y + 105.625 + T + 24);
-      //PUT IN turnLeft90 here in Sequance!
+      //turnLeft90 here in Sequance!
       AutoDriveForward driveTowardPort = new AutoDriveForward (120 - (.5)*x - shootDistance);
       AutoDumpingCommand dump = new AutoDumpingCommand();
       //Prepare to go to battle field
       AutoDriveForward negative_driveTillFrontOfPort = new AutoDriveForward ((-1) * (.5*y + 105.625 + T + 24));
     
-      // TODO: Call these definiations to run here.
+      //Add the actions to the Sequential
+      autonomousCommand.addSequential(driveHalfRobotLength);
+      autonomousCommand.addSequential(driveHalfRobotLengthBackward);
+      autonomousCommand.addSequential(turnLeft90);
+      autonomousCommand.addSequential(driveTillFrontOfPort);
+      autonomousCommand.addSequential(turnLeft90);
+      autonomousCommand.addSequential(driveTowardPort);
+      autonomousCommand.addSequential(dump);
+      autonomousCommand.addSequential(negative_driveTillFrontOfPort);
     }
 
-    //Starting Point: facing left 
-        //(center of robot on the initial line)
+    //Option 2
+        //Starting Point: facing left 
+        //center of robot Center of robot on the intersection of the initial line and the middle horizontal line on the floor
     else if(am == AutoMode.MiddleToPowerPort){
-      
+      //Go to shoot
+      AutoDriveForward driveTilFrontOfPort = new AutoDriveForward (24 + T);
+      Rotation turnLeft90 = new Rotation (-90);
+      AutoDriveForward driveToPort = new AutoDriveForward ((120 - (0.5 * x)) - shootDistance);
+      AutoDumpingCommand deliverToPowerPort = new AutoDumpingCommand ();
+      //Cross the Line
+      AutoDriveForward crossLine = new AutoDriveForward ((-1.0 * (120 - (0.5 * x)) - shootDistance)); 
+      AutoDriveForward driveBackwardRobotLength = new AutoDriveForward (x);
+
+      // Add the actions to the Sequential
+      autonomousCommand.addSequential(driveTilFrontOfPort);
+      autonomousCommand.addSequential(turnLeft90);
+      autonomousCommand.addSequential(driveToPort);
+      autonomousCommand.addSequential(deliverToPowerPort);
+      autonomousCommand.addSequential(crossLine);   
+      autonomousCommand.addSequential(driveBackwardRobotLength);   
     }
 
-    //Starting Point: facing right 
+    //Option 3
+        //Starting Point: facing right 
         //(Front side lining w/ the edge of Trench, 4 ft 8 in away from the left wall, 
         //center of robot is on the line)
     else if(am == AutoMode.CloseToPowerPort){
-     
+     //Go to shoot
+     AutoDriveForward driveTilFrontOfPort = new AutoDriveForward((0.5*x) + B + 24);
+     Rotation turnRight90 = new Rotation (90);
+     AutoDriveForward driveToPort = new AutoDriveForward((120 - (0.5*x)) - shootDistance);
+     AutoDumpingCommand deliverPowerCell = new AutoDumpingCommand();
+     //Cross the Line
+     AutoDriveForward crossLine = new AutoDriveForward (120 - shootDistance);
 
+      // Add the actions to the Sequential
+      autonomousCommand.addSequential(driveTilFrontOfPort);
+      autonomousCommand.addSequential(turnRight90);
+      autonomousCommand.addSequential(driveToPort);
+      autonomousCommand.addSequential(deliverPowerCell);
+      autonomousCommand.addSequential(crossLine);   
     }
 
+    // Start to run the actions!
     autonomousCommand.start();
   }
 
