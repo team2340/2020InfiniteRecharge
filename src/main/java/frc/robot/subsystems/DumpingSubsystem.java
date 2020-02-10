@@ -23,7 +23,7 @@ public class DumpingSubsystem extends Subsystem {
 	private void create() {
 		try {
 			Robot.oi.dumping = new WPI_TalonSRX(RobotMap.DUMPING_TAL_ID);//change to new talon
-			Robot.oi.left.setSensorPhase(true);
+			Robot.oi.frontLeft.setSensorPhase(true);
 		} catch (Exception ex) {
 			System.out.println("createDumping FAILED");
 		}

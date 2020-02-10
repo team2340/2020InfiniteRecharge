@@ -25,21 +25,21 @@ public class AutoDriveForward extends Command {
 //		double /*go = RobotUtils.distanceMinusRobot*/(distance);
 		desiredSpot = RobotUtils.getEncPositionFromIN(distance);
 //		Robot.drive.move(desiredSpot);
-		Robot.oi.left.set(ControlMode.Position, desiredSpot);
-		Robot.oi.right.set(ControlMode.Position, -desiredSpot);
+		Robot.oi.frontLeft.set(ControlMode.Position, desiredSpot);
+		Robot.oi.frontRight.set(ControlMode.Position, -desiredSpot);
 	}
 
 	@Override
 	protected void execute() {
-		int leftPos = Math.abs(Robot.oi.left.getSelectedSensorPosition(0));
-		int rightPos = Math.abs(Robot.oi.right.getSelectedSensorPosition(0));
+		int leftPos = Math.abs(Robot.oi.frontLeft.getSelectedSensorPosition(0));
+		int rightPos = Math.abs(Robot.oi.frontRight.getSelectedSensorPosition(0));
 		//		int leftErr = Math.abs(Robot.oi.left.getClosedLoopError(0));
 		//		int rightErr = Math.abs(Robot.oi.right.getClosedLoopError(0));
 
 		double range = 0;
 		SmartDashboard.putNumber("Current angle: ", Robot.oi.gyro.getAngle());
-		SmartDashboard.putNumber("left position", Robot.oi.left.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("right position ",Robot.oi.right.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("left position", Robot.oi.frontLeft.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("right position ",Robot.oi.frontRight.getSelectedSensorPosition(0));
 
 		
 		//DO THAT HERE@!
@@ -52,8 +52,8 @@ public class AutoDriveForward extends Command {
 	}
 
 	protected boolean done() {
-		int leftPos = Math.abs(Robot.oi.left.getSelectedSensorPosition(0));
-		int rightPos = Math.abs(Robot.oi.right.getSelectedSensorPosition(0));
+		int leftPos = Math.abs(Robot.oi.frontLeft.getSelectedSensorPosition(0));
+		int rightPos = Math.abs(Robot.oi.frontRight.getSelectedSensorPosition(0));
 		//		int leftErr = Math.abs(Robot.oi.left.getClosedLoopError(0));
 		//		int rightErr = Math.abs(Robot.oi.right.getClosedLoopError(0));
 

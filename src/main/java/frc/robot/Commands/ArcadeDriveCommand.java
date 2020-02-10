@@ -36,8 +36,8 @@ public class ArcadeDriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		SmartDashboard.putNumber("left position", Robot.oi.left.getSensorCollection().getQuadraturePosition());
-		SmartDashboard.putNumber("right position", Robot.oi.right.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("left position", Robot.oi.frontLeft.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("right position", Robot.oi.frontRight.getSensorCollection().getQuadraturePosition());
 
 		double x, y, z;
 		z = (3 - controller.getThrottle()) / 2;
@@ -68,32 +68,32 @@ public class ArcadeDriveCommand extends Command {
 			if (tgCmdButton3.GetToggle()==true){
 				double betty = .3;//this means the amount that we slow down one of the robot`s moters so we turn, it was named by Grace who when asked what we shoud name this varible responed Betty
 				if((x1<(x2+innerRange))&&(x1>(x2-innerRange))){
-					Robot.oi.right.set(y);
-					Robot.oi.left.set(y);
+					Robot.oi.frontRight.set(y);
+					Robot.oi.frontLeft.set(y);
 				}
 				else if (x2<x1){//goignto the right need to go left
-					Robot.oi.right.set(y);
+					Robot.oi.frontRight.set(y);
 					if(y<0){
-						Robot.oi.left.set(y);
+						Robot.oi.frontLeft.set(y);
 					}
 					else if((y-betty)>0){
-					Robot.oi.left.set(y-betty);
+					Robot.oi.frontLeft.set(y-betty);
 					}
 					else{
-						Robot.oi.left.set(0);
+						Robot.oi.frontLeft.set(0);
 					}
 				}
 				else if(x1<x2){//going to the left need to go right
 					if(y<0){
-						Robot.oi.right.set(y);//so  they can back up straight
+						Robot.oi.frontRight.set(y);//so  they can back up straight
 					}
 					else if ((y-betty)>0){
-						Robot.oi.right.set(y-betty);
+						Robot.oi.frontRight.set(y-betty);
 					}
 					else{
-						Robot.oi.right.set(0);
+						Robot.oi.frontRight.set(0);
 					}
-					Robot.oi.left.set(y);
+					Robot.oi.frontLeft.set(y);
 				}
 			}
 		}

@@ -23,7 +23,7 @@ public class AcquisitionSubsystem extends Subsystem {
 	private void create() {
 		try {
 			Robot.oi.acquisition = new WPI_TalonSRX(RobotMap.ACQUISITION_TAL_ID);//change to new talon
-			Robot.oi.left.setSensorPhase(true);
+			Robot.oi.frontLeft.setSensorPhase(true);
 		} catch (Exception ex) {
 			System.out.println("createAcquisition FAILED");
 		}

@@ -52,16 +52,20 @@ public class DriveSubsystem extends Subsystem {
 		createRightSide();
 //		setBrakeMode(true);
 		setForPosition();
-		robotDrive = new DifferentialDrive(Robot.oi.left, Robot.oi.right);
+		robotDrive = new DifferentialDrive(Robot.oi.frontLeft, Robot.oi.frontRight);
 		robotDrive.setSafetyEnabled(false);
 	}
 
 	private void createLeftSide() {
 		try {
-			Robot.oi.left = new WPI_TalonSRX(RobotMap.LEFT_TAL_ID);
-			Robot.oi.left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
-		    Robot.oi.left.selectProfileSlot(0,0);
-		    Robot.oi.left.setSensorPhase(true);
+			Robot.oi.frontLeft = new WPI_TalonSRX(RobotMap.FRONT_LEFT_TAL_ID);
+			Robot.oi.frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+		    Robot.oi.frontLeft.selectProfileSlot(0,0);
+			Robot.oi.frontLeft.setSensorPhase(true);
+
+			Robot.oi.backLeft = new WPI_TalonSRX(RobotMap.BACK_LEFT_TAL_ID);
+			Robot.oi.backLeft.set(ControlMode.Follower, RobotMap.FRONT_LEFT_TAL_ID);
+			
 		} catch (Exception ex) {
 			System.out.println("createLeftSide FAILED");
 		}
@@ -69,82 +73,86 @@ public class DriveSubsystem extends Subsystem {
 
 	private void createRightSide() {
 		try {
-			Robot.oi.right = new WPI_TalonSRX(RobotMap.RIGHT_TAL_ID);
-			Robot.oi.right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
-		    Robot.oi.right.selectProfileSlot(0,0);
-		    Robot.oi.right.setSensorPhase(true);
+			Robot.oi.frontRight = new WPI_TalonSRX(RobotMap.FRONT_RIGHT_TAL_ID);
+			Robot.oi.frontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+		    Robot.oi.frontRight.selectProfileSlot(0,0);
+			Robot.oi.frontRight.setSensorPhase(true);
+			
+			Robot.oi.backRight = new WPI_TalonSRX(RobotMap.BACK_RIGHT_TAL_ID);
+			Robot.oi.backRight.set(ControlMode.Follower, RobotMap.FRONT_RIGHT_TAL_ID);
+
 		} catch (Exception ex) {
 			System.out.println("createRightSide FAILED");
 		}
 	}
 	public void move(double amt) {
-		SmartDashboard.putNumber("starting left position", Robot.oi.left.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("starting right position ",Robot.oi.right.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("left position", Robot.oi.left.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("starting left position", Robot.oi.frontLeft.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("starting right position ",Robot.oi.frontRight.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("left position", Robot.oi.frontLeft.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("desired amt ",amt);
-		Robot.oi.left.set(ControlMode.Position, amt + Robot.oi.left.getSelectedSensorPosition(0));
-		Robot.oi.right.set(ControlMode.Position, -amt + Robot.oi.right.getSelectedSensorPosition(0));
+		Robot.oi.frontLeft.set(ControlMode.Position, amt + Robot.oi.frontLeft.getSelectedSensorPosition(0));
+		Robot.oi.frontRight.set(ControlMode.Position, -amt + Robot.oi.frontRight.getSelectedSensorPosition(0));
 
 	}
 	public void setForSpeed() {
-		Robot.oi.left.set(ControlMode.Velocity, 0);
-		Robot.oi.right.set(ControlMode.Velocity, 0);
-		Robot.oi.right.config_kF(0,speedF,0);
-	    Robot.oi.right.config_kP(0,speedP,0);
-	    Robot.oi.right.config_kI(0,speedI,0); 
-	    Robot.oi.right.config_kD(0,speedD,0);
-	    Robot.oi.left.config_kF(0,speedF,0);
-	    Robot.oi.left.config_kP(0,speedP,0);  
-	    Robot.oi.left.config_kI(0,speedI,0);  
-	    Robot.oi.left.config_kD(0,speedD,0);
-	    Robot.oi.left.configPeakOutputForward(speedPeakOutputVoltage,0); 
-	    Robot.oi.left.configPeakOutputReverse(-speedPeakOutputVoltage,0);
-	    Robot.oi.right.configPeakOutputForward(speedPeakOutputVoltage,0);
-	    Robot.oi.right.configPeakOutputReverse(-speedPeakOutputVoltage,0);	
+		Robot.oi.frontLeft.set(ControlMode.Velocity, 0);
+		Robot.oi.frontRight.set(ControlMode.Velocity, 0);
+		Robot.oi.frontRight.config_kF(0,speedF,0);
+	    Robot.oi.frontRight.config_kP(0,speedP,0);
+	    Robot.oi.frontRight.config_kI(0,speedI,0); 
+	    Robot.oi.frontRight.config_kD(0,speedD,0);
+	    Robot.oi.frontLeft.config_kF(0,speedF,0);
+	    Robot.oi.frontLeft.config_kP(0,speedP,0);  
+	    Robot.oi.frontLeft.config_kI(0,speedI,0);  
+	    Robot.oi.frontLeft.config_kD(0,speedD,0);
+	    Robot.oi.frontLeft.configPeakOutputForward(speedPeakOutputVoltage,0); 
+	    Robot.oi.frontLeft.configPeakOutputReverse(-speedPeakOutputVoltage,0);
+	    Robot.oi.frontRight.configPeakOutputForward(speedPeakOutputVoltage,0);
+	    Robot.oi.frontRight.configPeakOutputReverse(-speedPeakOutputVoltage,0);	
 	}
 	
 	public void setPeakOutputVoltage(float voltage) {
-		Robot.oi.left.configPeakOutputForward(voltage,0);
-		Robot.oi.left.configPeakOutputReverse(-voltage,0);
-	    Robot.oi.right.configPeakOutputForward(voltage,0);
-	    Robot.oi.right.configPeakOutputReverse(-voltage,0);	
+		Robot.oi.frontLeft.configPeakOutputForward(voltage,0);
+		Robot.oi.frontLeft.configPeakOutputReverse(-voltage,0);
+	    Robot.oi.frontRight.configPeakOutputForward(voltage,0);
+	    Robot.oi.frontRight.configPeakOutputReverse(-voltage,0);	
 	}
 	
 	public void setForPosition() {
-		Robot.oi.left.set(ControlMode.Position, 0);
-		Robot.oi.right.set(ControlMode.Position,0);
-		Robot.oi.right.selectProfileSlot(0,0);
-		Robot.oi.right.config_kF(0,positionF,0);
-	    Robot.oi.right.config_kP(0,positionP,0);
-	    Robot.oi.right.config_kI(0,positionI,0); 
-	    Robot.oi.right.config_kD(0,positionD,0);
-	    Robot.oi.left.selectProfileSlot(0,0);
-	    Robot.oi.left.config_kF(0,positionF,0);
-	    Robot.oi.left.config_kP(0,positionP,0);  
-	    Robot.oi.left.config_kI(0,positionI,0);  
-	    Robot.oi.left.config_kD(0,positionD,0);
-	    Robot.oi.left.configPeakOutputForward(positionPeakOutputVoltage,0);
-	    Robot.oi.left.configPeakOutputReverse(-positionPeakOutputVoltage,0);
-	    Robot.oi.right.configPeakOutputForward(positionPeakOutputVoltage,0);
-	    Robot.oi.right.configPeakOutputReverse(-positionPeakOutputVoltage,0);
-	    Robot.oi.right.setSelectedSensorPosition(0,0,0);
-	    Robot.oi.left.setSelectedSensorPosition(0,0,0);
+		Robot.oi.frontLeft.set(ControlMode.Position, 0);
+		Robot.oi.frontRight.set(ControlMode.Position,0);
+		Robot.oi.frontRight.selectProfileSlot(0,0);
+		Robot.oi.frontRight.config_kF(0,positionF,0);
+	    Robot.oi.frontRight.config_kP(0,positionP,0);
+	    Robot.oi.frontRight.config_kI(0,positionI,0); 
+	    Robot.oi.frontRight.config_kD(0,positionD,0);
+	    Robot.oi.frontLeft.selectProfileSlot(0,0);
+	    Robot.oi.frontLeft.config_kF(0,positionF,0);
+	    Robot.oi.frontLeft.config_kP(0,positionP,0);  
+	    Robot.oi.frontLeft.config_kI(0,positionI,0);  
+	    Robot.oi.frontLeft.config_kD(0,positionD,0);
+	    Robot.oi.frontLeft.configPeakOutputForward(positionPeakOutputVoltage,0);
+	    Robot.oi.frontLeft.configPeakOutputReverse(-positionPeakOutputVoltage,0);
+	    Robot.oi.frontRight.configPeakOutputForward(positionPeakOutputVoltage,0);
+	    Robot.oi.frontRight.configPeakOutputReverse(-positionPeakOutputVoltage,0);
+	    Robot.oi.frontRight.setSelectedSensorPosition(0,0,0);
+	    Robot.oi.frontLeft.setSelectedSensorPosition(0,0,0);
 	}
 	
 	public void setForVBus() {
-		Robot.oi.left.set(ControlMode.PercentOutput,0);
-        Robot.oi.right.set(ControlMode.PercentOutput,0);
-        Robot.oi.left.configPeakOutputForward(vBusPeakOutputVoltage,0); 
-	    Robot.oi.left.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
-	    Robot.oi.right.configPeakOutputForward(vBusPeakOutputVoltage,0);
-	    Robot.oi.right.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
+		Robot.oi.frontLeft.set(ControlMode.PercentOutput,0);
+        Robot.oi.frontRight.set(ControlMode.PercentOutput,0);
+        Robot.oi.frontLeft.configPeakOutputForward(vBusPeakOutputVoltage,0); 
+	    Robot.oi.frontLeft.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
+	    Robot.oi.frontRight.configPeakOutputForward(vBusPeakOutputVoltage,0);
+	    Robot.oi.frontRight.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
         robotDrive.setMaxOutput(vBusMaxOutput);
 		setArcadeSpeed(0,0);
 	}
 	
 	public void setBrakeMode(boolean brake) {
-		Robot.oi.right.setNeutralMode(NeutralMode.Brake);
-		Robot.oi.left.setNeutralMode(NeutralMode.Brake);
+		Robot.oi.frontRight.setNeutralMode(NeutralMode.Brake);
+		Robot.oi.frontLeft.setNeutralMode(NeutralMode.Brake);
 	}
 	
 	public void setArcadeSpeed(double x, double y){

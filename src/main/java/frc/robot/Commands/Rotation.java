@@ -41,20 +41,20 @@ public class Rotation extends Command {
 		SmartDashboard.putNumber("Gyro angle", angle);
 
 		if (angle >= turnAngle) {
-			Robot.oi.left.set(ControlMode.Velocity, 0);
-			Robot.oi.right.set(ControlMode.Velocity, 0);
+			Robot.oi.frontLeft.set(ControlMode.Velocity, 0);
+			Robot.oi.frontRight.set(ControlMode.Velocity, 0);
 		}
 		else {
 			double t = 1023*((turnAngle - angle)/turnAngle);
 			if (t < 900) t = 900; //was 800
 			double rotateSpeed = t;
 			if (rotateRight) {
-				Robot.oi.left.set(ControlMode.Velocity, rotateSpeed);
-				Robot.oi.right.set(ControlMode.Velocity, rotateSpeed);
+				Robot.oi.frontLeft.set(ControlMode.Velocity, rotateSpeed);
+				Robot.oi.frontRight.set(ControlMode.Velocity, rotateSpeed);
 			}
 			else {
-				Robot.oi.left.set(ControlMode.Velocity, -rotateSpeed);
-				Robot.oi.right.set(ControlMode.Velocity, -rotateSpeed);
+				Robot.oi.frontLeft.set(ControlMode.Velocity, -rotateSpeed);
+				Robot.oi.frontRight.set(ControlMode.Velocity, -rotateSpeed);
 			}
 		}
 	}
@@ -62,8 +62,8 @@ public class Rotation extends Command {
 	@Override
 	protected boolean isFinished() {
 		if (angle >= turnAngle) {
-			Robot.oi.left.set(0);
-			Robot.oi.right.set(0);
+			Robot.oi.frontLeft.set(0);
+			Robot.oi.frontRight.set(0);
 
 			Robot.oi.gyro.reset();
 			return true;

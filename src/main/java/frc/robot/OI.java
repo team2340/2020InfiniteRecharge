@@ -24,8 +24,10 @@ public class OI {
 	public ADXRS450_Gyro gyro = null;
    	public ColorSensorV3 colorSensor = null;
 
-	public WPI_TalonSRX left = null;
-	public WPI_TalonSRX right = null;
+	public WPI_TalonSRX frontLeft = null;
+	public WPI_TalonSRX backLeft = null;
+	public WPI_TalonSRX frontRight = null;
+	public WPI_TalonSRX backRight = null;
 	public WPI_TalonSRX acquisition = null;
 	public CANSparkMax controlPanel = null;
 	public WPI_TalonSRX dumping = null;
