@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Commands.AutoDriveForward;
+import frc.robot.Commands.AutoDumpingCommand;
 import frc.robot.Commands.Rotation;
 import frc.robot.RobotUtils.AutoMode;
 import frc.robot.subsystems.ControlPanelSubsystem;
@@ -44,10 +45,10 @@ public class Robot extends TimedRobot {
     // myLogger.open("logs/", "DebugLogger", ".csv");
     autoMode.setDefaultOption("Disabled", AutoMode.DISABLED);
     autoMode.addOption("DriveForward", AutoMode.DriveForward);
-    autoMode.addOption("Middle", AutoMode.Middle);
-		autoMode.addOption("Home", AutoMode.Home);
-		autoMode.addOption("Test", AutoMode.Test);
-    SmartDashboard.putData("Autonomous Modes", autoMode);
+    autoMode.addOption("MiddleToPowerPort", AutoMode.MiddleToPowerPort); // One option of starting point during Autonomous
+		autoMode.addOption("CloseToPowerPort", AutoMode.CloseToPowerPort); // One option of starting point during Autonomous
+		autoMode.addOption("FarFromPowerPort", AutoMode.FarFromPowerPort); // One option of starting point during Autonomous
+		SmartDashboard.putData("Autonomous Modes", autoMode);
     
     judgesTargetColor.setDefaultOption("unknown", 0);
     judgesTargetColor.addOption("yellow", 1);
@@ -110,10 +111,7 @@ public class Robot extends TimedRobot {
 
     if(am == AutoMode.DISABLED) {
     }
-  
-    else if(am == AutoMode.Middle){
-    }
-    else if(am == AutoMode.DriveForward){
+    else if(am==AutoMode.DriveForward){
       AutoDriveForward drive5 = new AutoDriveForward (5); //We need to know unit
       Rotation rotate70 = new Rotation (70);
 
@@ -121,8 +119,55 @@ public class Robot extends TimedRobot {
       autonomousCommand.addSequential(drive5);
       autonomousCommand.addSequential(rotate70);
     }
+
+//----------------------------------------------------------------------------------------------
+// From here these are options for Autonomous's starting points
+    
+    //Variables
+    double x = 0; //TODO: robot length plus the bumper's thickness
+    double y = 0; //TODO: robot width plus the bumper's thickness
+    double T = 39.71; //Vertical distance between the first triangle’s bottom and the middle line of the whole field (inches)
+    double shootDistance = 0;
+
+    // Starting point: facing forward,
+        //Left side lining w/ the edge of Trench, 4 ft 8 in away from the right wall
+        //Center of robot on the initial line
+    /*else*/ if(am == AutoMode.FarFromPowerPort){
+      //Cross the line
+          //drive forward until whole robot is beyond the line
+      AutoDriveForward driveHalfRobotLength = new AutoDriveForward(.5*x);
+          //drive backward til having the center point lining up with the starting line
+      AutoDriveForward driveHalfRobotLengthBackward = new AutoDriveForward(-(.5)*x);
+      //Go to shoot
+      Rotation turnLeft90 = new Rotation (-90);
+      AutoDriveForward driveTillFrontOfPort = new AutoDriveForward((.5)*y + 105.625 + T + 24);
+      //PUT IN turnLeft90 here in Sequance!
+      AutoDriveForward driveTowardPort = new AutoDriveForward (120 - (.5)*x - shootDistance);
+      AutoDumpingCommand dump = new AutoDumpingCommand();
+      //Prepare to go to battle field
+      AutoDriveForward negative_driveTillFrontOfPort = new AutoDriveForward ((-1) * (.5*y + 105.625 + T + 24));
+    
+      // TODO: Call these definiations to run here.
+    }
+
+    //Starting Point: facing left 
+        //(center of robot on the initial line)
+    else if(am == AutoMode.MiddleToPowerPort){
+      
+    }
+
+    //Starting Point: facing right 
+        //(Front side lining w/ the edge of Trench, 4 ft 8 in away from the left wall, 
+        //center of robot is on the line)
+    else if(am == AutoMode.CloseToPowerPort){
+     
+
+    }
+
     autonomousCommand.start();
   }
+
+  
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
