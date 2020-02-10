@@ -71,9 +71,10 @@ public class Robot extends TimedRobot {
     Color detectedColor = oi.colorSensor.getColor();
     String colorString;
     ColorMatchResult match = controlPanel.matchClosestColor(detectedColor);
+    double confidencePercentage = .93; //Joy didn't know what she did in Feb.10, 2020... ???????
     if(match != null)
     {
-      if(match.confidence >= .93) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
+      if(match.confidence >= confidencePercentage) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
       {
         if (match.color == controlPanel.kBlueTarget) {
           colorString = "Blue";
