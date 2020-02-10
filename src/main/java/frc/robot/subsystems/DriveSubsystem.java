@@ -43,19 +43,11 @@ public class DriveSubsystem extends Subsystem {
 	
 	public double vBusMaxOutput = 1.0; //An output multiplier
 	public double vBusPeakOutputVoltage = 1f; //the peak output (between 0 and 1)
-
-	static public DriveSubsystem getInstance() {
-		if (subsystem == null) {
-			subsystem = new DriveSubsystem();
-		}
-		return subsystem;
-	}
-
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDriveCommand());
 	}
 
-	private DriveSubsystem() {
+	public DriveSubsystem() {
 		createLeftSide();
 		createRightSide();
 //		setBrakeMode(true);

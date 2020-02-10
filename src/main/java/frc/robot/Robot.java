@@ -7,10 +7,9 @@
 
 package frc.robot;
 
-import com.revrobotics.ColorMatch;
-import edu.wpi.first.cameraserver.CameraServer;
+import com.revrobotics.ColorMatchResult;
+
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,24 +20,21 @@ import frc.robot.Commands.AutoDumpingCommand;
 import frc.robot.Commands.Rotation;
 import frc.robot.RobotUtils.AutoMode;
 import frc.robot.subsystems.ControlPanelSubsystem;
-//import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-//import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.DumpingSubsystem;
 
 public class Robot extends TimedRobot {
   public static final OI oi = new OI();
-   public static DriveSubsystem drive = null;
-   public static ControlPanelSubsystem controlPanel = null;
+  public static DriveSubsystem drive = null;
+  public static ControlPanelSubsystem controlPanel = null;
   // public static AcquisitionSubsystem acquisition = null;
-   //public static ControlPanelSubsystem controlPanel = null;
-   public static DumpingSubsystem dumping = DumpingSubsystem.getInstance();
-   //public static ArmSubsystem arm = null;
-   //public static ClimbSubsystem climb = null;
-   //public static final DebugLogger myLogger = new DebugLogger();
-   public static SendableChooser<Integer> judgesTargetColor = new SendableChooser<Integer>();
-   SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();
-   CommandGroup autonomousCommand = null;
+  public static DumpingSubsystem dumping = null;
+  //public static ArmSubsystem arm = null;
+  //public static ClimbSubsystem climb = null;
+  //public static final DebugLogger myLogger = new DebugLogger();
+  public static SendableChooser<Integer> judgesTargetColor = new SendableChooser<Integer>();
+  SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();
+  CommandGroup autonomousCommand = null;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -62,39 +58,59 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("judges' Target Color", judgesTargetColor);
 
     //CameraServer.getInstance().startAutomaticCapture();
-    drive = DriveSubsystem.getInstance();
-    // controlPanel = ControlPanelSubsystem.getInstance();
+    drive = new DriveSubsystem();
+    controlPanel = new ControlPanelSubsystem();
     // liftandramp = LonelyLiftSubsystem.getInstance();
+    // dumping = DumpingSubsystem.getInstance();
     //elevator = ElevatorSubsystem.getInstance();
     //arm = ArmSubsystem.getInstance();
   }
-
-public void teleopInit() {
-    if(autonomousCommand!=null){
-      autonomousCommand.cancel();
-    }
-	}
 
   @Override
   public void robotPeriodic() {
     double IR = oi.colorSensor.getIR();
     Color detectedColor = oi.colorSensor.getColor();
+    String colorString;
+    ColorMatchResult match = controlPanel.matchClosestColor(detectedColor);
+    double confidencePercentage = .93; //Joy didn't know what she did in Feb.10, 2020... ???????
+    if(match != null)
+    {
+      if(match.confidence >= confidencePercentage) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
+      {
+        if (match.color == controlPanel.kBlueTarget) {
+          colorString = "Blue";
+        } else if (match.color == controlPanel.kRedTarget) {
+          colorString = "Red";
+        } else if (match.color == controlPanel.kGreenTarget) {
+          colorString = "Green";
+        } else if (match.color == controlPanel.kYellowTarget) {
+          colorString = "Yellow";
+        }
+        else
+        {
+          colorString = "Unknown";
+        }
+      }
+      else {
+        colorString = "Not Confident";
+      }
+      SmartDashboard.putNumber("Confidence", match.confidence);
+      SmartDashboard.putString("Detected Color", colorString);
+    }
+
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("IR", IR);
-    ColorMatch.makeColor(0.143, 0.427, 0.429);
   }
 
   @Override
   public void autonomousInit() {
-    AutoMode am = (AutoMode) autoMode.getSelected();
+    AutoMode am = autoMode.getSelected();
     autonomousCommand = new CommandGroup();
 
     if(am == AutoMode.DISABLED) {
     }
-  
-  
     else if(am==AutoMode.DriveForward){
       AutoDriveForward drive5 = new AutoDriveForward (5); //We need to know unit
       Rotation rotate70 = new Rotation (70);
@@ -197,6 +213,13 @@ public void teleopInit() {
     Scheduler.getInstance().run();
   }
 
+  @Override
+  public void teleopInit() {
+    if(autonomousCommand!=null){
+      autonomousCommand.cancel();
+    }
+  }
+  
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
