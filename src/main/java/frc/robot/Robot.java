@@ -247,7 +247,7 @@ public class Robot extends TimedRobot {
        autonomousCommand.addSequential(driveToFrontOfPort);
        autonomousCommand.addSequential(turnLeft90);
        autonomousCommand.addSequential(driveToPort);   
-       autonomousCommand.addSequential(dump);   
+       autonomousCommand.addSequential(dump);
      }
 
     //Option 5
@@ -256,7 +256,9 @@ public class Robot extends TimedRobot {
     // Last choice!
     else if(am == AutoMode.CrossOnly) {
       
-      
+    AutoDriveForward crossDriveForward = new AutoDriveForward (0.75*x);
+
+    autonomousCommand.addSequential(crossDriveForward);
 
 
      }
