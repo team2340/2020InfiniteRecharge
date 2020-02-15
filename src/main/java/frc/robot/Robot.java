@@ -17,10 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.RobotUtils.AutoMode;
+import frc.robot.Commands.AcquisitionCommand;
 import frc.robot.Commands.AutoDriveForward;
 import frc.robot.Commands.AutoDumpingCommand;
 import frc.robot.Commands.ColorSensorPositionCommand;
 import frc.robot.Commands.ColorSensorRotationCommand;
+import frc.robot.Commands.DumpingCommand;
 import frc.robot.Commands.Rotation;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
@@ -73,11 +75,17 @@ public class Robot extends TimedRobot {
 
         // Binds the ColorSensorPositionCommand to be scheduled when the button3 of the joystick is pressed
         //When button 3 is pressed again, the ColorSensorPositionCommand would stop.
-    JoystickButton button3 = new JoystickButton(oi.driveController, RobotMap.BUTTON_3);
-    button3.whenPressed(new ColorSensorPositionCommand());
+    JoystickButton driveButton3 = new JoystickButton(oi.driveController, RobotMap.BUTTON_3);
+    driveButton3.whenPressed(new ColorSensorPositionCommand());
 
-    JoystickButton button4 = new JoystickButton(oi.driveController, RobotMap.BUTTON_4);
-    button4.whenPressed(new ColorSensorRotationCommand());
+    JoystickButton driveButton4 = new JoystickButton(oi.driveController, RobotMap.BUTTON_4);
+    driveButton4.whenPressed(new ColorSensorRotationCommand());
+
+    JoystickButton acqButton5 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_5);
+    acqButton5.whileHeld(new AcquisitionCommand());
+
+    JoystickButton acqButton6 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_6);
+    acqButton6.whileHeld(new DumpingCommand());
 
 
     //TODO: Need to use the same way above to bind commends with other buttons:)

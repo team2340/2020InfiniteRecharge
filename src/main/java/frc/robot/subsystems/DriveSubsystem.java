@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends Subsystem {
 
-	static private DriveSubsystem subsystem;
 	DifferentialDrive robotDrive;
 	public double speedP = 1.5;
 	public double speedI = 0.0;
