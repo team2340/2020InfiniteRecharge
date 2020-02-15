@@ -14,9 +14,11 @@ public class RobotUtils {
 	public enum AutoMode {
 		DISABLED,
 		DriveForward,
-		CloseToPowerPort,
-		FarFromPowerPort,
-		MiddleToPowerPort
+		Right_Cross_and_DiagonalDump,
+		Center_Cross_and_Dump,
+		Left_Cross_and_Dump,
+		Right_Cross_and_90degreesDump,
+		CrossOnly
 	}
 
 	
