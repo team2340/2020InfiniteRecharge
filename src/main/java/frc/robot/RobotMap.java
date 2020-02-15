@@ -30,17 +30,14 @@ public class RobotMap {
 		public static final int ELEVATOR2_BOTTOM_ID = 1;
 	/*CAN IDs*/
 		//Wheel Ids
-		public static final int FRONT_RIGHT_TAL_ID = 6;
-		public static final int FRONT_LEFT_TAL_ID = 8;
-		public static final int BACK_RIGHT_TAL_ID = 99;
-		public static final int BACK_LEFT_TAL_ID = 88;
+		public static final int FRONT_RIGHT_TAL_ID = 3;
+		public static final int FRONT_LEFT_TAL_ID = 1;
+		public static final int BACK_RIGHT_TAL_ID = 4;
+		public static final int BACK_LEFT_TAL_ID = 2;
 		//Acquisition Ids
-		public static final int CLIMB_TALON_ID = 50; // Elevator is 5-neo
-		public static final int LIFT_TAL_ID = 5; //was 3, currently not in use
-		public static final int ARM_TAL_ID = 7;	
-		public static final int ACQUISITION_TAL_ID = 100;
-		public static final int CLIMB1_TAL_ID = 101;
-		public static final int CLIMB2_TAL_ID = 102;
+		public static final int ACQUISITION_TAL_ID = 7;
+		public static final int CLIMB1_TAL_ID = 5;
+		public static final int CLIMB2_TAL_ID = 6;
 		public static final int CONTROLPANEL_NEO_ID = 103; 
-		public static final int DUMPING_TAL_ID = 45;
+		public static final int DUMPING_TAL_ID = 8;
 	}

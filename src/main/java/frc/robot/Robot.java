@@ -25,6 +25,7 @@ import frc.robot.Commands.ColorSensorRotationCommand;
 import frc.robot.Commands.DumpingCommand;
 import frc.robot.Commands.Rotation;
 import frc.robot.subsystems.AcquisitionSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DumpingSubsystem;
@@ -36,7 +37,7 @@ public class Robot extends TimedRobot {
   public static AcquisitionSubsystem acquisition = null;
   public static DumpingSubsystem dumping = null;
   //public static ArmSubsystem arm = null;
-  //public static ClimbSubsystem climb = null;
+  public static ClimbSubsystem climb = null;
   //public static final DebugLogger myLogger = new DebugLogger();
   public static SendableChooser<Integer> judgesTargetColor = new SendableChooser<Integer>();
   SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();

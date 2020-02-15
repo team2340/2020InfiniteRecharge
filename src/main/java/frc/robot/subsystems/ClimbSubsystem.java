@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.Commands.ClimbCommand;
 
 public class ClimbSubsystem extends Subsystem {
     static private ClimbSubsystem subsystem;
@@ -45,24 +46,18 @@ public class ClimbSubsystem extends Subsystem {
 		}
     }
     
-    public void climbForward(){
-        Robot.oi.climb1.set(1);
-    }
+    public void move1(double amt) {
+		Robot.oi.climb1.set(amt);
+	}
 
-    public void climbReverse(){
-        Robot.oi.climb1.set(-1);
-    }
-    
-    public void climbStop(){
-        Robot.oi.climb1.set(0);
-    }
-
+   
     @Override
     protected void initDefaultCommand() {
-       // setDefaultCommand(new ClimbCommand());
+       setDefaultCommand(new ClimbCommand());
     }
 
 
+    //Encoders' codes: (not used now)
     public void setForPosition() {
 		Robot.oi.climb1.set(ControlMode.Position, 0);
 	    Robot.oi.climb1.selectProfileSlot(0,0);
