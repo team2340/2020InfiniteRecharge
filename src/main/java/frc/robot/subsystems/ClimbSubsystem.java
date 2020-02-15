@@ -11,6 +11,14 @@ import frc.robot.RobotMap;
 public class ClimbSubsystem extends Subsystem {
     static private ClimbSubsystem subsystem;
 
+    //controls the smoothness of the motion. We will change them while testing.
+    public float positionPeakOutputVoltage = 10.0f/12.0f;
+    public double positionI = 0.000;
+	public double positionD = 0.0;
+	public double positionF = 0.0;
+	public double positionP = 0.08525; //25% power at 3000 error ((%*1023)/desiered error)- increases power or drecers error ( bigger nubmer, closere to one) pos- 15% power at 1024/)
+
+
     private ClimbSubsystem() {
         create();
 	}
@@ -53,4 +61,26 @@ public class ClimbSubsystem extends Subsystem {
     protected void initDefaultCommand() {
        // setDefaultCommand(new ClimbCommand());
     }
+
+
+    public void setForPosition() {
+		Robot.oi.climb1.set(ControlMode.Position, 0);
+	    Robot.oi.climb1.selectProfileSlot(0,0);
+	    Robot.oi.climb1.config_kF(0,positionF,0);
+	    Robot.oi.climb1.config_kP(0,positionP,0);  
+	    Robot.oi.climb1.config_kI(0,positionI,0);  
+        Robot.oi.climb1.config_kD(0,positionD,0);
+        //setting up max and min voltage (which turns into speed) from -12 to +12.
+	    Robot.oi.climb1.configPeakOutputForward(positionPeakOutputVoltage,0);
+	    Robot.oi.climb1.configPeakOutputReverse(-positionPeakOutputVoltage,0);
+	
+	    Robot.oi.climb1.setSelectedSensorPosition(0,0,0);
+    }
+    
+    public void move(double amt) {
+        //move to this position
+		Robot.oi.climb1.set(ControlMode.Position, amt + Robot.oi.climb1.getSelectedSensorPosition(0));
+		
+
+	}
 }
