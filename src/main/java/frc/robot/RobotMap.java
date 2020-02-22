@@ -38,6 +38,6 @@ public class RobotMap {
 		public static final int ACQUISITION_TAL_ID = 7;
 		public static final int CLIMB1_TAL_ID = 5;
 		public static final int CLIMB2_TAL_ID = 6;
-		public static final int CONTROLPANEL_NEO_ID = 103; 
+		public static final int CONTROLPANEL_NEO_ID = 50; 
 		public static final int DUMPING_TAL_ID = 8;
 	}

@@ -9,6 +9,7 @@ package frc.robot;
 
 import com.revrobotics.ColorMatchResult;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
     judgesTargetColor.addOption("blue", 4);
     SmartDashboard.putData("judges' Target Color", judgesTargetColor);
 
-    //CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
     drive = new DriveSubsystem();
     controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
