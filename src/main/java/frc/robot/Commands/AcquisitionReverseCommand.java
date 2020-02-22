@@ -6,19 +6,17 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AcquisitionCommand extends Command {
+public class AcquisitionReverseCommand extends Command {
 	
 
-	public AcquisitionCommand() {
+	public AcquisitionReverseCommand() {
 		requires(Robot.acquisition);
-		requires(Robot.dumping);
 	}
 
 
 	@Override
 	protected void execute() {
-		Robot.acquisition.acquisitionForward(0.45);
-		Robot.dumping.dumpingForward(0.45);
+		Robot.acquisition.acquisitionReverse();
 	}
 
 	
@@ -30,9 +28,7 @@ public class AcquisitionCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.acquisition.acquisitionStop();
-		Robot.dumping.dumpingForward(0);
-
+        Robot.acquisition.acquisitionStop();
 	}
 
 }

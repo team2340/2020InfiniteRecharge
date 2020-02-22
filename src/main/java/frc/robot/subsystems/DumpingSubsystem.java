@@ -30,8 +30,8 @@ public class DumpingSubsystem extends Subsystem {
     }
 
     
-    public void dumpingForward(){
-        Robot.oi.dumping.set(1);
+    public void dumpingForward(double speed){
+        Robot.oi.dumping.set(speed);
     }
 
     public void dumpingReverse(){

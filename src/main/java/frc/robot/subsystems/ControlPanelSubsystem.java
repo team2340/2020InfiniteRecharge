@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.util.ColorShim;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-public class ControlPanelSubsystem extends Subsystem { //TODO: We can add calibrate functionality to auto set the color
+public class ControlPanelSubsystem extends Subsystem { 
     public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
     public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);

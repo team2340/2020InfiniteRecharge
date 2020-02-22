@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.RobotUtils.AutoMode;
 import frc.robot.Commands.AcquisitionCommand;
+import frc.robot.Commands.AcquisitionReverseCommand;
 import frc.robot.Commands.AutoDriveForward;
 import frc.robot.Commands.AutoDumpingCommand;
 import frc.robot.Commands.CameraCommand;
@@ -93,12 +94,14 @@ public class Robot extends TimedRobot {
     JoystickButton acqButton5 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_5);
     acqButton5.whileHeld(new AcquisitionCommand());
 
+    JoystickButton acqButton3 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_3);
+    acqButton3.whileHeld(new AcquisitionReverseCommand());
+
     JoystickButton acqButton6 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_6);
     acqButton6.whileHeld(new DumpingCommand());
 
     JoystickButton driveButton2 = new JoystickButton(oi.driveController, RobotMap.BUTTON_2);
     driveButton2.whenPressed(new CameraCommand());
-    //TODO: Need to use the same way above to bind commends with other buttons:)
   }
 
   @Override
@@ -166,7 +169,7 @@ public class Robot extends TimedRobot {
     double shootDistance = 0;
     double Jimin = 0.5*y + 105.625 + T + 24; //vertical distance lining with the inner edge of the opponent's trench lining with the center point of the power port
     double Tae = 0.75*x + (120 - 0.5*x - T); //horizontal distance from where robot crosses the line that lines up with the shooting spot in front of power port
-    double a = Math.atan(Jimin/Tae); // Angle that we need to turn in order to approach the power port diagonally 
+    double a = Math.toDegrees(Math.atan(Jimin/Tae)); // Angle that we need to turn in order to approach the power port diagonally 
                                                                 //for dumping from the right starting position
     double MCRGerard = Math.pow((Math.pow(Jimin, 2.0) + Math.pow(Tae, 2.0)), 0.5); //the diagonal path; Jimin, Tae and MCRGerard form a triangle.
     double Fred = (56-(0.5*y)) + Math.tan(a)*(0.75*x) + (Math.cos(a)*(0.5*y)+Math.sin(a)*(0.5*x)); //(tell the alliance team) distance from the right wall to the invisible horizontal line that the alliance team should stay left of (so that we could run option “DiagonalDump”. If the alliance stay right of line M, we need to run option “90degreesDump”)
@@ -223,7 +226,7 @@ public class Robot extends TimedRobot {
      AutoDriveForward crossLine = new AutoDriveForward (-1*(0.75*x));
      //Go diagonally til front of the port.
      //turn right for "a" degrees
-     Rotation turnRight_a = new Rotation (a); //TODO: check if a is in degrees
+     Rotation turnRight_a = new Rotation (a); 
      AutoDriveForward driveToPort = new AutoDriveForward(MCRGerard);
      //Turn to face the Port
      Rotation turnLeft_a = new Rotation ((-1)*a);

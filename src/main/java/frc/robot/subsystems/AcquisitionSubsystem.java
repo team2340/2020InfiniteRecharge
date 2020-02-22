@@ -23,7 +23,7 @@ public class AcquisitionSubsystem extends Subsystem {
 	private void create() {
 		try {
 			Robot.oi.acquisition = new WPI_TalonSRX(RobotMap.ACQUISITION_TAL_ID);//change to new talon
-			Robot.oi.frontLeft.setSensorPhase(true);
+			// Robot.oi.frontLeft.setSensorPhase(true);
 		} catch (Exception ex) {
 			System.out.println("createAcquisition FAILED");
 		}
@@ -31,12 +31,12 @@ public class AcquisitionSubsystem extends Subsystem {
 
     
     
-    public void acquisitionForward(){
-        Robot.oi.acquisition.set(1);
+    public void acquisitionForward(double speed){
+        Robot.oi.acquisition.set(-speed);
     }
 
     public void acquisitionReverse(){
-        Robot.oi.acquisition.set(-1);
+        Robot.oi.acquisition.set(.45);
     }
     
     public void acquisitionStop(){

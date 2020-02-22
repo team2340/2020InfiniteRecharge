@@ -60,7 +60,7 @@ public class DriveSubsystem extends Subsystem {
 			Robot.oi.frontLeft = new WPI_TalonSRX(RobotMap.FRONT_LEFT_TAL_ID);
 			Robot.oi.frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		    Robot.oi.frontLeft.selectProfileSlot(0,0);
-			Robot.oi.frontLeft.setSensorPhase(true);
+			Robot.oi.frontLeft.setSensorPhase(false);
 
 			Robot.oi.backLeft = new WPI_TalonSRX(RobotMap.BACK_LEFT_TAL_ID);
 			Robot.oi.backLeft.set(ControlMode.Follower, RobotMap.FRONT_LEFT_TAL_ID);
@@ -75,7 +75,7 @@ public class DriveSubsystem extends Subsystem {
 			Robot.oi.frontRight = new WPI_TalonSRX(RobotMap.FRONT_RIGHT_TAL_ID);
 			Robot.oi.frontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		    Robot.oi.frontRight.selectProfileSlot(0,0);
-			Robot.oi.frontRight.setSensorPhase(true);
+			Robot.oi.frontRight.setSensorPhase(false);
 			
 			Robot.oi.backRight = new WPI_TalonSRX(RobotMap.BACK_RIGHT_TAL_ID);
 			Robot.oi.backRight.set(ControlMode.Follower, RobotMap.FRONT_RIGHT_TAL_ID);

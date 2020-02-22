@@ -1,10 +1,8 @@
 package frc.robot.Commands;
 
-import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Robot;
 
 

@@ -1,24 +1,17 @@
 package frc.robot.Commands;
 
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
 //import org.usfirst.frc.team2340.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArcadeDriveCommand extends Command {
 	double x1=0;
     double x2=0;
-    private NetworkTable table;
 	boolean buttonPressed = false;
 	boolean buttonMode = false;
-	private JoystickButton button3;
 	private Joystick controller;
 
 	public ArcadeDriveCommand() {
@@ -34,7 +27,7 @@ public class ArcadeDriveCommand extends Command {
 
 		double x, y, z;
 		z = (3 - controller.getThrottle()) / 2;
-		y = -controller.getY() / z;
+		y = controller.getY() / z;
 		x = controller.getX() / z;
 		// System.out.println("Z: " + z + ", y: " + y + ", x: " + x);
 

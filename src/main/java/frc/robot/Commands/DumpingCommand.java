@@ -16,7 +16,7 @@ public class DumpingCommand extends Command {
 
 	@Override
 	protected void execute() {
-        Robot.dumping.dumpingForward();
+        Robot.dumping.dumpingForward(1);
     }
 
 	@Override
