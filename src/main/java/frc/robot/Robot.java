@@ -9,6 +9,7 @@ package frc.robot;
 
 import com.revrobotics.ColorMatchResult;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -21,6 +22,7 @@ import frc.robot.RobotUtils.AutoMode;
 import frc.robot.Commands.AcquisitionCommand;
 import frc.robot.Commands.AutoDriveForward;
 import frc.robot.Commands.AutoDumpingCommand;
+import frc.robot.Commands.CameraCommand;
 import frc.robot.Commands.ColorSensorPositionCommand;
 import frc.robot.Commands.ColorSensorRotationCommand;
 import frc.robot.Commands.DumpingCommand;
@@ -43,6 +45,9 @@ public class Robot extends TimedRobot {
   public static SendableChooser<Integer> judgesTargetColor = new SendableChooser<Integer>();
   SendableChooser<AutoMode> autoMode = new SendableChooser<AutoMode>();
   CommandGroup autonomousCommand = null;
+  public static UsbCamera camera1;
+  public static UsbCamera camera2;
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -67,7 +72,10 @@ public class Robot extends TimedRobot {
     judgesTargetColor.addOption("blue", 4);
     SmartDashboard.putData("judges' Target Color", judgesTargetColor);
 
-    CameraServer.getInstance().startAutomaticCapture();
+    camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+    camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+
+
     drive = new DriveSubsystem();
     controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
@@ -88,7 +96,8 @@ public class Robot extends TimedRobot {
     JoystickButton acqButton6 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_6);
     acqButton6.whileHeld(new DumpingCommand());
 
-
+    JoystickButton driveButton2 = new JoystickButton(oi.driveController, RobotMap.BUTTON_2);
+    driveButton2.whenPressed(new CameraCommand());
     //TODO: Need to use the same way above to bind commends with other buttons:)
   }
 
@@ -288,5 +297,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
+    Scheduler.getInstance().run();
+
   }
 }
