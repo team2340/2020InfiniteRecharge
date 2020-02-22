@@ -69,10 +69,9 @@ public class Robot extends TimedRobot {
     //CameraServer.getInstance().startAutomaticCapture();
     drive = new DriveSubsystem();
     controlPanel = new ControlPanelSubsystem();
-    // liftandramp = LonelyLiftSubsystem.getInstance();
-    // dumping = DumpingSubsystem.getInstance();
-    //elevator = ElevatorSubsystem.getInstance();
-    //arm = ArmSubsystem.getInstance();
+    dumping = DumpingSubsystem.getInstance();
+    acquisition = AcquisitionSubsystem.getInstance();
+    climb = ClimbSubsystem.getInstance();
 
         // Binds the ColorSensorPositionCommand to be scheduled when the button3 of the joystick is pressed
         //When button 3 is pressed again, the ColorSensorPositionCommand would stop.
