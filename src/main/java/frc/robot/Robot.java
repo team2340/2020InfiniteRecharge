@@ -27,6 +27,8 @@ import frc.robot.Commands.CameraCommand;
 import frc.robot.Commands.ColorSensorPositionCommand;
 import frc.robot.Commands.ColorSensorRotationCommand;
 import frc.robot.Commands.DumpingCommand;
+import frc.robot.Commands.DumpingReverseCommand;
+import frc.robot.Commands.DumpingSlowCommand;
 import frc.robot.Commands.Rotation;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -98,9 +100,13 @@ public class Robot extends TimedRobot {
     acqButton3.whileHeld(new AcquisitionReverseCommand());
 
     JoystickButton acqButton6 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_6);
-    acqButton6.whileHeld(new DumpingCommand());
+    acqButton6.whileHeld(new DumpingSlowCommand());
 
-    //JoystickButton acqButton4 = new JoystickButton (oi.)
+    JoystickButton acqButton4 = new JoystickButton (oi.acquisitionController, RobotMap.BUTTON_4);
+    acqButton4.whileHeld(new DumpingReverseCommand());
+
+    JoystickButton acqButton1 = new JoystickButton (oi.acquisitionController, RobotMap.BUTTON_1);
+    acqButton1.whileHeld(new DumpingCommand());
 
     JoystickButton driveButton2 = new JoystickButton(oi.driveController, RobotMap.BUTTON_2);
     driveButton2.whenPressed(new CameraCommand());
