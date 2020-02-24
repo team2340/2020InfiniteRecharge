@@ -17,8 +17,8 @@ public class AcquisitionCommand extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.acquisition.acquisitionForward(0.45);
-		Robot.dumping.dumpingForward(0.45);
+		Robot.acquisition.acquisitionForward(0.70);
+		Robot.dumping.dumpingForward(0.55);
 	}
 
 	
