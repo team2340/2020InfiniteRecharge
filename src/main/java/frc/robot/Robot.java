@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
 
 
     drive = new DriveSubsystem();
-    controlPanel = new ControlPanelSubsystem();
+    //controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
     acquisition = AcquisitionSubsystem.getInstance();
     //climb = ClimbSubsystem.getInstance();
