@@ -18,6 +18,7 @@ public class ClimbSubsystem extends Subsystem {
 	public double positionD = 0.0;
 	public double positionF = 0.0;
 	public double positionP = 0.08525; //25% power at 3000 error ((%*1023)/desiered error)- increases power or drecers error ( bigger nubmer, closere to one) pos- 15% power at 1024/)
+	public double vBusPeakOutputVoltage = 1f; //the peak output (between 0 and 1)
 
 
     private ClimbSubsystem() {
@@ -46,7 +47,8 @@ public class ClimbSubsystem extends Subsystem {
 		}
     }
     
-    public void move1(double amt) {
+    public void vBus_move(double amt) { //vBus mode controlling the speed of the motor from -1 to 1.
+		setForVBus(); //to make sure in vBus mode every time.
 		Robot.oi.climb1.set(amt);
 	}
 
@@ -70,10 +72,18 @@ public class ClimbSubsystem extends Subsystem {
 	    Robot.oi.climb1.configPeakOutputReverse(-positionPeakOutputVoltage,0);
 	
 	    Robot.oi.climb1.setSelectedSensorPosition(0,0,0);
-    }
+	}
+	
+	public void setForVBus() {
+		Robot.oi.climb1.set(ControlMode.PercentOutput,0);
+        Robot.oi.climb1.configPeakOutputForward(vBusPeakOutputVoltage,0); 
+	    Robot.oi.climb1.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
+	}
     
-    public void move(double amt) {
-        //move to this position
+	public void PID_move(double amt) { //double amt = encoder counts.
+		//this MOVE function: Using encoder counts to control the motor.
+		//move to this position
+		setForPosition(); //any time you want to call "move" function, it automatically calls PID.
 		Robot.oi.climb1.set(ControlMode.Position, amt + Robot.oi.climb1.getSelectedSensorPosition(0));
 		
 

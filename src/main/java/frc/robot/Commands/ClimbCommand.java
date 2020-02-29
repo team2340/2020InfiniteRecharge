@@ -29,7 +29,7 @@ public class ClimbCommand extends Command {
         z = (3 - controller.getThrottle()) / 2;
         y = -controller.getY() / z;
 
-       Robot.climb.move1(y);
+       Robot.climb.vBus_move(y);
 	}
 
 	@Override
