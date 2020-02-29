@@ -97,11 +97,14 @@ public class ColorSensorPositionCommand extends Command {
 	@Override
 	protected boolean isFinished() {
         if(wedgeNumber == 0){
-            Robot.controlPanel.controlPanelStop();
             return true;
         }
 		else{
             return false;
         }
-	}	
+    }	
+    
+    protected void end() {
+        Robot.controlPanel.controlPanelStop();
+    }
 }
