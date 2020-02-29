@@ -16,7 +16,7 @@ public class DumpingSlowCommand extends Command {
 
 	@Override
 	protected void execute() {
-        Robot.dumping.dumpingForward(.45);
+        Robot.dumping.dumpingForward(.8);
     }
 
 	@Override

@@ -36,7 +36,7 @@ public class AcquisitionSubsystem extends Subsystem {
     }
 
     public void acquisitionReverse(){
-        Robot.oi.acquisition.set(.45);
+        Robot.oi.acquisition.set(.9);
     }
     
     public void acquisitionStop(){

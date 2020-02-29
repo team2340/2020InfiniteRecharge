@@ -80,18 +80,18 @@ public class Robot extends TimedRobot {
 
 
     drive = new DriveSubsystem();
-    //controlPanel = new ControlPanelSubsystem();
+    controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
     acquisition = AcquisitionSubsystem.getInstance();
-    //climb = ClimbSubsystem.getInstance();
+    climb = ClimbSubsystem.getInstance();
 
         // Binds the ColorSensorPositionCommand to be scheduled when the button3 of the joystick is pressed
         //When button 3 is pressed again, the ColorSensorPositionCommand would stop.
     JoystickButton driveButton3 = new JoystickButton(oi.driveController, RobotMap.BUTTON_3);
-    driveButton3.whenPressed(new ColorSensorPositionCommand());
+    driveButton3.toggleWhenPressed(new ColorSensorPositionCommand());
 
     JoystickButton driveButton4 = new JoystickButton(oi.driveController, RobotMap.BUTTON_4);
-    driveButton4.whenPressed(new ColorSensorRotationCommand());
+    driveButton4.toggleWhenPressed(new ColorSensorRotationCommand());
 
     JoystickButton acqButton5 = new JoystickButton(oi.acquisitionController, RobotMap.BUTTON_5);
     acqButton5.whileHeld(new AcquisitionCommand());
@@ -170,8 +170,8 @@ public class Robot extends TimedRobot {
 // From here these are options for Autonomous's starting points
     
     //Variables
-    double x = 0; //TODO: robot length plus the bumper's thickness
-    double y = 0; //TODO: robot width plus the bumper's thickness
+    double x = 24.25; //TODO: robot length plus the bumper's thickness
+    double y = 31; //TODO: robot width plus the bumper's thickness
     double T = 39.71; //Vertical distance between the first triangle’s bottom and the middle line of the whole field (inches)
     double TrenchWidth = 56; //B //Vertical distance between bottom corner of power port and random point on player station that lines up with trench = B ; equal to width of Trench
     double shootDistance = 0;

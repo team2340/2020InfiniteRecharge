@@ -63,7 +63,6 @@ public class ColorSensorRotationCommand extends Command {
 
 		//Mission completed
 		if(countRevolution == 3 || countRevolution == 4){
-			Robot.controlPanel.controlPanelStop();
 			return true;
 		}
 
@@ -78,4 +77,8 @@ public class ColorSensorRotationCommand extends Command {
 			return false;
 		}
 	}	
+
+	protected void end() {
+        Robot.controlPanel.controlPanelStop();
+    }
 }
