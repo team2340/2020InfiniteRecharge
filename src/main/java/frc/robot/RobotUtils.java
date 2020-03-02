@@ -11,7 +11,7 @@ public class RobotUtils {
 	public static  double elevatorRev = 0.314961;
 	public enum AutoMode {
 		DISABLED,
-		DriveForward,
+		// DriveForward,
 		Right_Cross_and_DiagonalDump,
 		Center_Cross_and_Dump,
 		Left_Cross_and_Dump,
