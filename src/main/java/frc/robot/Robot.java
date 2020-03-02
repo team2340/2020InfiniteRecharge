@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
     controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
     acquisition = AcquisitionSubsystem.getInstance();
-    climb = ClimbSubsystem.getInstance();
+    // climb = ClimbSubsystem.getInstance();
 
         // Binds the ColorSensorPositionCommand to be scheduled when the button3 of the joystick is pressed
         //When button 3 is pressed again, the ColorSensorPositionCommand would stop.
