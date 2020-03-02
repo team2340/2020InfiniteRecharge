@@ -42,11 +42,11 @@ public class ControlPanelSubsystem extends Subsystem {
     }
 
     public void controlPanelForward(){
-        Robot.oi.controlPanel.set(1);
+        Robot.oi.controlPanel.set(.1);
     }
 
     public void controlPanelReverse(){
-        Robot.oi.controlPanel.set(-1);
+        Robot.oi.controlPanel.set(-.1);
     }
     
     public void controlPanelStop(){

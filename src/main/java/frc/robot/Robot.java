@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // myLogger.open("logs/", "DebugLogger", ".csv");
     autoMode.setDefaultOption("Disabled", AutoMode.DISABLED);
-    autoMode.addOption("DriveForward", AutoMode.DriveForward);
+    //autoMode.addOption("DriveForward", AutoMode.DriveForward);
     autoMode.addOption("Left_Cross_and_Dump", AutoMode.Left_Cross_and_Dump); // One option of starting point during Autonomous
 		autoMode.addOption("Right_Cross_and_DiagonalDump", AutoMode.Right_Cross_and_DiagonalDump); // One option of starting point during Autonomous
 		autoMode.addOption("Center_Cross_and_Dump", AutoMode.Center_Cross_and_Dump); // One option of starting point during Autonomous
@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
     Color detectedColor = oi.colorSensor.getColor();
     String colorString;
     ColorMatchResult match = controlPanel.matchClosestColor(detectedColor);
-    double confidencePercentage = .93; //TODO: Joy didn't know what she did in Feb.10, 2020... ???????
+    double confidencePercentage = .9; //TODO: Joy didn't know what she did in Feb.10, 2020... ???????
     if(match != null)
     {
       if(match.confidence >= confidencePercentage) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
@@ -156,31 +156,31 @@ public class Robot extends TimedRobot {
     autonomousCommand = new CommandGroup();
 
     if(am == AutoMode.DISABLED) {
-    }
-    else if(am==AutoMode.DriveForward){
-      AutoDriveForward drive5 = new AutoDriveForward (5); //We need to know unit
-      Rotation rotate70 = new Rotation (70);
+     } //TODO: Why should this be empty? 
+    // else if(am==AutoMode.DriveForward){
+    //   AutoDriveForward drive5 = new AutoDriveForward (5); //We need to know unit
+    //   Rotation rotate70 = new Rotation (70);
 
 
-      autonomousCommand.addSequential(drive5);
-      autonomousCommand.addSequential(rotate70);
-    }
+    //   autonomousCommand.addSequential(drive5);
+    //   autonomousCommand.addSequential(rotate70);
+    //}
 
 //--------------------------------------------------------------------------------------------------------------------------
 // From here these are options for Autonomous's starting points
     
     //Variables
-    double x = 24.25; //TODO: robot length plus the bumper's thickness
-    double y = 31; //TODO: robot width plus the bumper's thickness
-    double T = 39.71; //Vertical distance between the first triangle’s bottom and the middle line of the whole field (inches)
+    double robotLength = 30.25; //x  Already plused 6 in for bumpers
+    double robotWidth = 37; //y  Already plused 6 in for bumpers
+   // double T = 39.71; //Vertical distance between the first triangle’s bottom and the middle line of the whole field (inches)
     double TrenchWidth = 56; //B //Vertical distance between bottom corner of power port and random point on player station that lines up with trench = B ; equal to width of Trench
     double shootDistance = 0;
-    double Jimin = 0.5*y + 105.625 + T + 24; //vertical distance lining with the inner edge of the opponent's trench lining with the center point of the power port
-    double Tae = 0.75*x + (120 - 0.5*x - T); //horizontal distance from where robot crosses the line that lines up with the shooting spot in front of power port
-    double a = Math.toDegrees(Math.atan(Jimin/Tae)); // Angle that we need to turn in order to approach the power port diagonally 
+    double Jimin = 187.835; // 0.5*y + 105.625 + T + 24 vertical distance lining with the inner edge of the opponent's trench lining with the center point of the power port
+    double Tae = 87.8525; //0.75*x + (120 - 0.5*x - T)horizontal distance from where robot crosses the line that lines up with the shooting spot in front of power port
+    double angle = 64.9339898; // Math.toDegrees(Math.atan(Jimin/Tae))Angle that we need to turn in order to approach the power port diagonally 
                                                                 //for dumping from the right starting position
-    double MCRGerard = Math.pow((Math.pow(Jimin, 2.0) + Math.pow(Tae, 2.0)), 0.5); //the diagonal path; Jimin, Tae and MCRGerard form a triangle.
-    double Fred = (56-(0.5*y)) + Math.tan(a)*(0.75*x) + (Math.cos(a)*(0.5*y)+Math.sin(a)*(0.5*x)); //(tell the alliance team) distance from the right wall to the invisible horizontal line that the alliance team should stay left of (so that we could run option “DiagonalDump”. If the alliance stay right of line M, we need to run option “90degreesDump”)
+    double MCRGerard = 207.3645316;//Math.pow((Math.pow(Jimin, 2.0) + Math.pow(Tae, 2.0)), 0.5); the diagonal path; Jimin, Tae and MCRGerard form a triangle.
+    double Fred = 107.5457975; //(56-(0.5*robotWidth)) + Math.tan(angle)*(0.75*robotLength) + (Math.cos(angle)*(0.5*robotWidth)+Math.sin(angle)*(0.5*robotLength)) (tell the alliance team) distance from the right wall to the invisible horizontal line that the alliance team should stay left of (so that we could run option “DiagonalDump”. If the alliance stay right of line M, we need to run option “90degreesDump”)
     //Grace 2.0 makes Java happy! JOY DOES TOO!!!!!!!! ALSO AMY!!!!
 
 //----------------------------------------------------------------------------------------------------------------------------
@@ -191,8 +191,8 @@ public class Robot extends TimedRobot {
         //Start position: Face back, right in front of the Port
         //Choose this option if our team is the strongest among alliance teams
   /*else*/ if(am == AutoMode.Center_Cross_and_Dump) {
-        AutoDriveForward driveCrossTheLine = new AutoDriveForward((-1)*(0.75*x)); // drive backward
-        AutoDriveForward driveToPort = new AutoDriveForward((0.75*x + 120) - (0.5*x + shootDistance));
+        AutoDriveForward driveCrossTheLine = new AutoDriveForward((-1)*(0.75*robotLength)); // drive backward
+        AutoDriveForward driveToPort = new AutoDriveForward((0.75*robotLength + 120) - (0.5*robotLength + shootDistance));
 
         //Add the actions to the Sequential
         autonomousCommand.addSequential(driveCrossTheLine);
@@ -205,11 +205,11 @@ public class Robot extends TimedRobot {
     else if(am == AutoMode.Left_Cross_and_Dump){
       //Go to shoot
       Rotation driveTilFrontOfPort = new Rotation (90);
-      AutoDriveForward driveForward= new AutoDriveForward ((0.5*x) + TrenchWidth + (0.5*48));
+      AutoDriveForward driveForward= new AutoDriveForward ((0.5*robotLength) + TrenchWidth + (0.5*48));
       Rotation turnRight90 = new Rotation (90);
-      AutoDriveForward crossLine = new AutoDriveForward (-1*(0.75*x));
+      AutoDriveForward crossLine = new AutoDriveForward (-1*(0.75*robotLength));
       //Cross the Line
-      AutoDriveForward driveToPort = new AutoDriveForward (((0.75*x) + 120) - ((0.5*y) + shootDistance));
+      AutoDriveForward driveToPort = new AutoDriveForward (((0.75*robotLength) + 120) - ((0.5*robotWidth) + shootDistance));
       AutoDumpingCommand dump = new AutoDumpingCommand(); //deliver power cell      
 
       // Add the actions to the Sequential
@@ -231,13 +231,13 @@ public class Robot extends TimedRobot {
             //then run another option “Right_Cross_and_90degreesDump” (Option 4). 
     else if(am == AutoMode.Right_Cross_and_DiagonalDump){
      //Cross the line by drving backward
-     AutoDriveForward crossLine = new AutoDriveForward (-1*(0.75*x));
+     AutoDriveForward crossLine = new AutoDriveForward (-1*(0.75*robotLength));
      //Go diagonally til front of the port.
      //turn right for "a" degrees
-     Rotation turnRight_a = new Rotation (a); 
+     Rotation turnRight_a = new Rotation (angle); 
      AutoDriveForward driveToPort = new AutoDriveForward(MCRGerard);
      //Turn to face the Port
-     Rotation turnLeft_a = new Rotation ((-1)*a);
+     Rotation turnLeft_a = new Rotation ((-1)*angle);
      //now the robot is right in front of the port, ready to dump.
      AutoDumpingCommand dump = new AutoDumpingCommand(); //deliver power cells
      
@@ -254,7 +254,7 @@ public class Robot extends TimedRobot {
     // Robot goes around the sector instead of going diagonally.
     // Choose this option if the alliance robot at “center position” stays anywhere right of the invisible line that is Fred inches away from the right wall.
     else if(am == AutoMode.Right_Cross_and_90degreesDump) {
-      AutoDriveForward crossLine = new AutoDriveForward (0.75*x);
+      AutoDriveForward crossLine = new AutoDriveForward (0.75*robotLength);
       Rotation turnLeft90 = new Rotation (-90);
       AutoDriveForward driveToFrontOfPort = new AutoDriveForward (Jimin);
       //PUT IN turnLeft90
@@ -276,16 +276,16 @@ public class Robot extends TimedRobot {
     // Last choice!
     else if(am == AutoMode.CrossOnly) {
       
-    AutoDriveForward crossDriveForward = new AutoDriveForward (0.75*x);
+    AutoDriveForward crossDriveForward = new AutoDriveForward (0.75*robotLength);
 
     autonomousCommand.addSequential(crossDriveForward);
 
 
      }
 
-    
-    // Start to run the actions!
-    autonomousCommand.start();
+    if (autonomousCommand != null){
+      autonomousCommand.start();
+    }
   }
 
   
