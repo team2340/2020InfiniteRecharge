@@ -10,10 +10,10 @@ public class ColorSensorPositionCommand extends Command {
 
     Integer ourTargetColor = 0;
     Integer judgesTargetColor = 0;
-    Color detectedColor = null;
+    Integer detectedColor = 0; //string
     Double arcLength = 12.5; //inches
     Integer wedgeNumber = 0; //will be defined in the initialize function.
-    Color lastColorSeen = null;
+    Integer lastColorSeen = 0; //string
 
     Integer yellow = 1;
     Integer red = 2;
@@ -50,18 +50,19 @@ public class ColorSensorPositionCommand extends Command {
             ourTargetColor = red;
         }
 
-        detectedColor = Robot.oi.colorSensor.getColor();
+        detectedColor = matchTheColor();
 
+        //The code below was to find the wedge number based on the color detected.
         //find the number of wedges that we need to go across
         //match.color is the color closet to the RGB detected by the sensor.
-        ColorMatchResult match = Robot.controlPanel.matchClosestColor(detectedColor);
-        if (match.color == Robot.controlPanel.kBlueTarget) {
+        //ColorMatchResult match = Robot.controlPanel.matchClosestColor(detectedColor); 
+        if (detectedColor==blue) {
             wedgeNumber = ourTargetColor - blue;
-          } else if (match.color == Robot.controlPanel.kRedTarget) {
+          } else if (detectedColor==red/*match.color == Robot.controlPanel.kRedTarget*/) {
             wedgeNumber = ourTargetColor - red;
-          } else if (match.color == Robot.controlPanel.kGreenTarget) {
+          } else if (detectedColor==green/*match.color == Robot.controlPanel.kGreenTarget*/) {
             wedgeNumber = ourTargetColor - green;
-          } else if (match.color == Robot.controlPanel.kYellowTarget) {
+          } else if (detectedColor==yellow/*match.color == Robot.controlPanel.kYellowTarget*/) {
             wedgeNumber = ourTargetColor - yellow;
           } else {
             wedgeNumber = ourTargetColor;
@@ -80,7 +81,7 @@ public class ColorSensorPositionCommand extends Command {
             Robot.controlPanel.controlPanelForward();
         }
 
-        detectedColor = Robot.oi.colorSensor.getColor();
+        detectedColor = matchTheColor();
         
         if(detectedColor != lastColorSeen){
             if(wedgeNumber > 0){
@@ -94,9 +95,32 @@ public class ColorSensorPositionCommand extends Command {
         lastColorSeen = detectedColor;
 	}
 
+    Integer matchTheColor() { //String
+		Color detectedColor = Robot.oi.colorSensor.getColor();
+		Integer /*String*/ colorInteger = lastColorSeen;
+		ColorMatchResult match = Robot.controlPanel.matchClosestColor(detectedColor);
+		if(match != null)
+		{
+			if(match.confidence >= Robot.controlPanel.confidenceLevel) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
+			{
+				if (match.color == Robot.controlPanel.kBlueTarget) {
+				colorInteger = blue;
+				} else if (match.color == Robot.controlPanel.kRedTarget) {
+                colorInteger = red;
+				} else if (match.color == Robot.controlPanel.kGreenTarget) {
+                colorInteger = green;
+				} else if (match.color == Robot.controlPanel.kYellowTarget) {
+                colorInteger = yellow;
+				}
+			}
+		}
+			return colorInteger; //changed from colorString
+	}
+
+
 	@Override
 	protected boolean isFinished() {
-        if(wedgeNumber == 0){
+        if(wedgeNumber == 1){
             return true;
         }
 		else{
