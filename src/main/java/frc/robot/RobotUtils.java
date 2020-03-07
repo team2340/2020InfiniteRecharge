@@ -33,7 +33,7 @@ public class RobotUtils {
 		heightOfRobotArms = _heightOfRobotArms;
 	}
 	public static double getEncPositionFromIN(double distanceInInches) {
-		return (distanceInInches/(wheelDiameter * Math.PI))*4096/*2900*/;
+		return (distanceInInches/(wheelDiameter * Math.PI))*470 /*testing result: 460 or 471 or 472 counts per rotation of drive motor*/ /*t was 4096 before edit*/;
 	}
 
 	public static double getEncPositionFromINArms(double distanceInInches) {

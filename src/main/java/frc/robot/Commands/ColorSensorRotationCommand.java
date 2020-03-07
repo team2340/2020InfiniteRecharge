@@ -46,7 +46,7 @@ public class ColorSensorRotationCommand extends Command {
 		}
 		
 		// When the color panel has already done one reolution
-		if (countForDetectedColor == 3 /* 3 means one revolution is completed, so the sensor sees teh startCoor for the 3rd time*/) {
+		if (countForDetectedColor == 3 /* 3 means one revolution is completed, so the sensor sees the startColor for the 3rd time*/) {
 			countRevolution ++;
 			countForDetectedColor = 1;
 		}
@@ -68,7 +68,7 @@ public class ColorSensorRotationCommand extends Command {
 
 		//Restarts task if panel has too many revolutions
 		else if (countRevolution == 5) {
-			countRevolution = 0;
+			countRevolution = 0;//maybe change countRevolution to 1 at the 5th rotation?
 			countForDetectedColor = 1;
 			return false;
 		}
