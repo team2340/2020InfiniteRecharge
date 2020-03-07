@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -81,7 +82,9 @@ public class Robot extends TimedRobot {
 
     RobotUtils.lengthOfRobot(30.25);
     RobotUtils.widthOfRobot(37);
-    oi.gyro = new ADXRS450_Gyro();
+    //oi.gyro = new ADXRS450_Gyro();
+    //TODO: Joy needs check: FRC says it creates an ADXRS450_Gyro object on the MXP SPI port
+    Gyro gyro = new ADXRS450_Gyro(/*SPI.Port.kMXP*/);
     drive = new DriveSubsystem();
     controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
@@ -189,11 +192,15 @@ public class Robot extends TimedRobot {
 //***All options start facing forward, except "Center_Cross_and_Dump"  AND  "Right_Cross_and_DiagonalDump"
 //***All the directions are from robot’s perspective
 
-    //1st Choice!
+
+
+    //Option 1 (1st Choice!)
         //Start position: Face back, right in front of the Port
         //Choose this option if our team is the strongest among alliance teams
   /*else*/ if(am == AutoMode.Center_Cross_and_Dump) {
+        System.out.println("Option 1 begins!"); //for troubleshoot cuz the robot keeps spinning.
         AutoDriveForward driveCrossTheLine = new AutoDriveForward((-1)*(0.75*robotLength)); // drive backward
+        System.out.println("Crossing-line should be done!"); //for troubleshoot cuz the robot keeps spinning.
         AutoDriveForward driveToPort = new AutoDriveForward((0.75*robotLength + 120) - (0.5*robotLength + shootDistance));
 
         //Add the actions to the Sequential

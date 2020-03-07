@@ -49,6 +49,7 @@ public class ColorSensorPositionCommand extends Command {
         else if(judgesTargetColor == blue){
             ourTargetColor = red;
         }
+        System.out.println("OurTargetColor is " + ourTargetColor);
 
         detectedColor = matchTheColor();
 
@@ -67,6 +68,7 @@ public class ColorSensorPositionCommand extends Command {
           } else {
             wedgeNumber = ourTargetColor;
           }
+          System.out.println("WedgeNumber is " + wedgeNumber);
 
         lastColorSeen = detectedColor;
 	}
@@ -76,9 +78,11 @@ public class ColorSensorPositionCommand extends Command {
 	protected void execute() {
         if (wedgeNumber < 0){
             Robot.controlPanel.controlPanelReverse();
+            System.out.println("ControlPanel----Reverse");
         }
         else if (wedgeNumber > 0){
             Robot.controlPanel.controlPanelForward();
+            System.out.println("ControlPanel----Forward");
         }
 
         detectedColor = matchTheColor();
@@ -86,15 +90,19 @@ public class ColorSensorPositionCommand extends Command {
         if(detectedColor != lastColorSeen){
             if(wedgeNumber > 0){
                 wedgeNumber--;
+                System.out.println("WedgeNumber is " + wedgeNumber);
             }
             else if(wedgeNumber < 0){
                 wedgeNumber++;
+                System.out.println("WedgeNumber is " + wedgeNumber);
             }
         }
 
         lastColorSeen = detectedColor;
 	}
 
+    //matchTheColor returns the integer that represents the color detected by the sensor. 
+    //The color approximation and confidence level are done in this function too.
     Integer matchTheColor() { //String
 		Color detectedColor = Robot.oi.colorSensor.getColor();
 		Integer /*String*/ colorInteger = lastColorSeen;
@@ -120,7 +128,8 @@ public class ColorSensorPositionCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-        if(wedgeNumber == 1){
+        if(wedgeNumber == 0){
+            System.out.println("WedgeNumber is 0 so stop");
             return true;
         }
 		else{
