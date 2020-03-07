@@ -6,7 +6,6 @@ public class RobotUtils {
 	private static double widthOfRobot = 28;
 	private static double heightOfRobotArms = 0;
 	private static double heightOfBox = 0;
-	private static double armRatio = 1;
 	private static double heightOfRobotFromTheGround = 3;
 	public static  double elevatorRev = 0.314961;
 	public enum AutoMode {
@@ -33,32 +32,9 @@ public class RobotUtils {
 		heightOfRobotArms = _heightOfRobotArms;
 	}
 	public static double getEncPositionFromIN(double distanceInInches) {
-		return (distanceInInches/(wheelDiameter * Math.PI))*4096/*2900*/;
-	}
-
-	public static double getEncPositionFromINArms(double distanceInInches) {
-		double armRev = 0.314961;//this is 8 mm in inches
-		System.out.println("Encoder Ticks Per Revolutions for arms: "+armRev);
-		return (distanceInInches /(armRev/armRatio) ) * 42;
+		return (distanceInInches/(wheelDiameter * Math.PI))*470; //Create a function to do the inverse thing from enc to in
 	}
 	
-	// public static double getEncPositionFromINElevatorOne(double distanceInInches) {
-	// 	System.out.println("Encoder Ticks Per Revolutions for elevator one: "+elevatorRev);
-	// 	return (distanceInInches /(elevatorRev/elevatorOneRatio) ) * 42;
-	// }
-	// public static double getEncPositionFromINElevatorTwo(double distanceInInches) {
-	// 	System.out.println("Encoder Ticks Per Revolutions for elevator two: "+elevatorRev);
-	// 	return (distanceInInches /(elevatorRev/elevatorTwoRatio) ) * 42;
-	// }
-	// public static double getDistanceInInchesFromElevatorOne(double encoderVaule){
-	// 	return ((encoderVaule/42)*(elevatorRev/elevatorOneRatio));
-	// }
-	// public static double getDistanceInInchesFromElevatorTwo(double encoderVaule){
-	// 	return ((encoderVaule/42)*(elevatorRev/elevatorTwoRatio));
-	// }
-	// public static double distanceMinusRobot(double distance){
-	// 	return distance-lengthOfRobot;
-	// }
 	public static double getLengthOfRobot() {
 		return lengthOfRobot;
 	}
@@ -73,9 +49,6 @@ public class RobotUtils {
 	}
 	public static void setWheelDiameter(double _wheelDiameter) {
 		wheelDiameter = _wheelDiameter;
-	}
-	public static void setArmRatio(double _armRate){
-		armRatio = _armRate;
 	}
 	
 	public static void heightOfRobotFromTheGround(double _heightOfRobotFromTheGround){

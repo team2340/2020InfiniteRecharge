@@ -16,10 +16,11 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ControlPanelSubsystem extends Subsystem { 
-    public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-    public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-    public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-    public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+    public final Color kBlueTarget = ColorMatch.makeColor(0.109, 0.386, 0.504); //FRC: 0.143, 0.427, 0.429
+    public final Color kGreenTarget = ColorMatch.makeColor(0.217, 0.531, 0.253); //FRC: 0.197, 0.561, 0.240
+    public final Color kRedTarget = ColorMatch.makeColor(0.511, 0.355, 0.135); //FRC: 0.561, 0.232, 0.114
+    public final Color kYellowTarget = ColorMatch.makeColor(0.335, 0.557, 0.107); //FRC: 0.361, 0.524, 0.113
+    public double confidenceLevel = 0.97;
     private ArrayList<Color> m_colorsToMatch = new ArrayList<Color>();
 
     public ControlPanelSubsystem() {

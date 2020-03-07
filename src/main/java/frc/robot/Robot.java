@@ -11,6 +11,7 @@ import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -78,12 +79,14 @@ public class Robot extends TimedRobot {
     camera1 = CameraServer.getInstance().startAutomaticCapture(0);
     camera2 = CameraServer.getInstance().startAutomaticCapture(1);
 
-
+    RobotUtils.lengthOfRobot(30.25);
+    RobotUtils.widthOfRobot(37);
+    oi.gyro = new ADXRS450_Gyro();
     drive = new DriveSubsystem();
     controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
     acquisition = AcquisitionSubsystem.getInstance();
-    // climb = ClimbSubsystem.getInstance();
+    climb = ClimbSubsystem.getInstance();
 
         // Binds the ColorSensorPositionCommand to be scheduled when the button3 of the joystick is pressed
         //When button 3 is pressed again, the ColorSensorPositionCommand would stop.
@@ -118,10 +121,9 @@ public class Robot extends TimedRobot {
     Color detectedColor = oi.colorSensor.getColor();
     String colorString;
     ColorMatchResult match = controlPanel.matchClosestColor(detectedColor);
-    double confidencePercentage = .9; //TODO: Joy didn't know what she did in Feb.10, 2020... ???????
     if(match != null)
     {
-      if(match.confidence >= confidencePercentage) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
+      if(match.confidence >= Robot.controlPanel.confidenceLevel) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
       {
         if (match.color == controlPanel.kBlueTarget) {
           colorString = "Blue";
@@ -170,8 +172,8 @@ public class Robot extends TimedRobot {
 // From here these are options for Autonomous's starting points
     
     //Variables
-    double robotLength = 30.25; //x  Already plused 6 in for bumpers
-    double robotWidth = 37; //y  Already plused 6 in for bumpers
+    double robotLength = RobotUtils.getLengthOfRobot(); //x  Already plused 6 in for bumpers
+    double robotWidth = RobotUtils.getWidthOfRobot(); //y  Already plused 6 in for bumpers
    // double T = 39.71; //Vertical distance between the first triangle’s bottom and the middle line of the whole field (inches)
     double TrenchWidth = 56; //B //Vertical distance between bottom corner of power port and random point on player station that lines up with trench = B ; equal to width of Trench
     double shootDistance = 0;

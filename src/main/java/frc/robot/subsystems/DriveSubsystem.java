@@ -22,9 +22,9 @@ public class DriveSubsystem extends Subsystem {
 	public double speedF = 0.001;
 	public double speedPeakOutputVoltage = 1f;
 	
-	public double positionP = 0.08525; //25% power at 3000 error ((%*1023)/desiered error)- increases power or drecers error ( bigger nubmer, closere to one) pos- 15% power at 1024/)
+	public double positionP = 0.08525; //25% power at 3000 error ((%*1023)/desired error)- increases power or drecers error ( bigger nubmer, closere to one) pos- 15% power at 1024/)
 //	public double positionP = 0.127875; // 25% power at 2000 error
-//	public double positionP = 0.25575; // 25% power at 1000 error
+//	public double positionP = 0.25575; // 25% power at 1000 error              //3000 should be smaller
 //	public double positionP = 2/*0.5115*/; // 50% power at 1000 error
 //	public double positionP = 0.1023; // 30% power at 3000 error
 //	public double positionP = 0.15345;// 30% power at 2000 error
@@ -64,7 +64,7 @@ public class DriveSubsystem extends Subsystem {
 
 			Robot.oi.backLeft = new WPI_TalonSRX(RobotMap.BACK_LEFT_TAL_ID);
 			Robot.oi.backLeft.set(ControlMode.Follower, RobotMap.FRONT_LEFT_TAL_ID);
-			
+
 		} catch (Exception ex) {
 			System.out.println("createLeftSide FAILED");
 		}
@@ -79,7 +79,6 @@ public class DriveSubsystem extends Subsystem {
 			
 			Robot.oi.backRight = new WPI_TalonSRX(RobotMap.BACK_RIGHT_TAL_ID);
 			Robot.oi.backRight.set(ControlMode.Follower, RobotMap.FRONT_RIGHT_TAL_ID);
-
 		} catch (Exception ex) {
 			System.out.println("createRightSide FAILED");
 		}
