@@ -1,5 +1,7 @@
 package frc.robot.Commands;
 
+import com.revrobotics.ColorMatchResult;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Robot;
@@ -12,19 +14,21 @@ public class ColorSensorRotationCommand extends Command {
 		requires(Robot.controlPanel);
 	}
 
-	Color startColor = null;
+	String startColor = null;
 	int countRevolution = 0;
 	int countForDetectedColor = 1; // 1means olor sensor already sees the startColor for one time
-	Color detectedColor = null;
-	Color lastDetectedColor = null; // the color in the last wedge(triangle) 20 milliseconds ago, so it differs from teh current new detectedColor
+	String detectedColor = null;
+	String lastDetectedColor = null; // the color in the last wedge(triangle) 20 milliseconds ago, so it differs from teh current new detectedColor
 
 
 	@Override
 	protected void initialize() {
-		startColor = Robot.oi.colorSensor.getColor();
+		countRevolution = 0;
+		countForDetectedColor = 1;
+		startColor = matchTheColor(); 
 		// Record what the color sensor sees
-		lastDetectedColor = Robot.oi.colorSensor.getColor();
-
+		lastDetectedColor = startColor;
+		System.out.println("Start Color is " + startColor);
 	}
 
 
@@ -35,27 +39,53 @@ public class ColorSensorRotationCommand extends Command {
 		Robot.controlPanel.controlPanelForward();
 
 		// Sees the current new color
-		detectedColor = Robot.oi.colorSensor.getColor();
+		detectedColor = matchTheColor();
 
 		// When moves on to next color wedge
 		if (detectedColor != lastDetectedColor) {
+			System.out.println("Last detected Color is " + lastDetectedColor);
+			System.out.println("New detected Color is " + detectedColor);
 			//When the start color reappears
 			if (detectedColor == startColor) {
 				countForDetectedColor ++;
+				System.out.println("count For Detected Color is " + countForDetectedColor);
 			}
 		}
 		
 		// When the color panel has already done one reolution
-		if (countForDetectedColor == 3 /* 3 means one revolution is completed, so the sensor sees the startColor for the 3rd time*/) {
+		if (countForDetectedColor == 3 /* 3 means one revolution is completed, so the sensor sees the startCoor for the 3rd time*/) {
 			countRevolution ++;
+			System.out.println("count Revolution is " + countRevolution);
 			countForDetectedColor = 1;
 		}
 
 		// Record what the color sensor sees
-		lastDetectedColor = Robot.oi.colorSensor.getColor();
-
-
+		lastDetectedColor = detectedColor;
+		
 	}
+
+	String matchTheColor() {
+		Color detectedColor = Robot.oi.colorSensor.getColor();
+		String colorString = lastDetectedColor;
+		ColorMatchResult match = Robot.controlPanel.matchClosestColor(detectedColor);
+		if(match != null)
+		{
+			if(match.confidence >= Robot.controlPanel.confidenceLevel) //TODO: Move confidence into matchClosestColor function (or maybe have confidence be a parameter)
+			{
+				if (match.color == Robot.controlPanel.kBlueTarget) {
+				colorString = "Blue";
+				} else if (match.color == Robot.controlPanel.kRedTarget) {
+				colorString = "Red";
+				} else if (match.color == Robot.controlPanel.kGreenTarget) {
+				colorString = "Green";
+				} else if (match.color == Robot.controlPanel.kYellowTarget) {
+				colorString = "Yellow";
+				}
+			}
+		}
+			return colorString;
+	}
+
 
 	// When to stop? When to restart over?
 	@Override
@@ -63,6 +93,7 @@ public class ColorSensorRotationCommand extends Command {
 
 		//Mission completed
 		if(countRevolution == 3 || countRevolution == 4){
+			System.out.println("Should end here cuz count Revolution is " + countRevolution);
 			return true;
 		}
 
@@ -70,6 +101,7 @@ public class ColorSensorRotationCommand extends Command {
 		else if (countRevolution == 5) {
 			countRevolution = 0;//maybe change countRevolution to 1 at the 5th rotation?
 			countForDetectedColor = 1;
+			System.out.println("Spun too far");
 			return false;
 		}
 		
@@ -80,5 +112,7 @@ public class ColorSensorRotationCommand extends Command {
 
 	protected void end() {
         Robot.controlPanel.controlPanelStop();
-    }
+	}
+	
+	 
 }
