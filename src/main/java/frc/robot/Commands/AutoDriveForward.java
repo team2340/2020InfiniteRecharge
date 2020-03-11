@@ -11,12 +11,15 @@ public class AutoDriveForward extends Command {
 	long startTime = 0;
 	double desiredSpot = 0;
 	double distance = 0;
+	double range = 50;
+	Boolean leftDone = false;
+	Boolean rightDone = false;
 
 	public AutoDriveForward(double howFar /*unit: inches*/ ) {
 		requires(Robot.drive);
 		distance = howFar/*-(.5*RobotUtils.getLengthOfRobot())*/;
 		SmartDashboard.putNumber("distance ", distance);
-		
+		leftDone = rightDone = false;
 	}
 
 	@Override
@@ -30,40 +33,40 @@ public class AutoDriveForward extends Command {
 		Robot.oi.frontLeft.set(ControlMode.Position, desiredSpot);
 		Robot.oi.frontRight.set(ControlMode.Position, -desiredSpot);
 		SmartDashboard.putNumber("desired position", desiredSpot);
+		SmartDashboard.putNumber("range", range);
+		desiredSpot = Math.abs(desiredSpot);
 	}
 
 	@Override
 	protected void execute() {
-		int leftPos = Math.abs(Robot.oi.frontLeft.getSelectedSensorPosition(0));
-		int rightPos = Math.abs(Robot.oi.frontRight.getSelectedSensorPosition(0));
+		int leftPos = Robot.oi.frontLeft.getSelectedSensorPosition(0);
+		int rightPos = Robot.oi.frontRight.getSelectedSensorPosition(0);
+		leftPos = Math.abs(leftPos);
+		rightPos = Math.abs(rightPos);
 		//		int leftErr = Math.abs(Robot.oi.left.getClosedLoopError(0));
 		//		int rightErr = Math.abs(Robot.oi.right.getClosedLoopError(0));
 
-		double range = 0;
-		SmartDashboard.putNumber("Current angle: ", Robot.oi.gyro.getAngle());
-		SmartDashboard.putNumber("left position", Robot.oi.frontLeft.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("right position ",Robot.oi.frontRight.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Current angle", Robot.oi.gyro.getAngle());
+		SmartDashboard.putNumber("left position", leftPos);
+		SmartDashboard.putNumber("right position", rightPos);
 
 		
 		//DO THAT HERE@!
 		if(leftPos <= desiredSpot+range && leftPos >= desiredSpot-range){
 			System.out.println ("LeftSide done");
+			leftDone = true;
 		}
 		if (rightPos <= desiredSpot+range && rightPos >= desiredSpot-range){
 			System.out.println ("Rightside done");
+			rightDone = true;
 		}	
 	}
 
 	protected boolean done() {
-		int leftPos = Math.abs(Robot.oi.frontLeft.getSelectedSensorPosition(0));
-		int rightPos = Math.abs(Robot.oi.frontRight.getSelectedSensorPosition(0));
-		//		int leftErr = Math.abs(Robot.oi.left.getClosedLoopError(0));
-		//		int rightErr = Math.abs(Robot.oi.right.getClosedLoopError(0));
-
-		double range = 0;
-		if((leftPos <= desiredSpot+range && leftPos >= desiredSpot-range)
-				&& (rightPos <= desiredSpot+range && rightPos >= desiredSpot-range))
+		if(leftDone && rightDone)
 		{
+			System.out.println("STOP!");
+			Robot.drive.setArcadeSpeed(0, 0);
 			return true;
 		}
 		return false;

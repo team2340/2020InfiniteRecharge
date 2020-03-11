@@ -24,6 +24,7 @@ import frc.robot.RobotUtils.AutoMode;
 import frc.robot.Commands.AcquisitionCommand;
 import frc.robot.Commands.AcquisitionReverseCommand;
 import frc.robot.Commands.AutoDriveForward;
+import frc.robot.Commands.AutoDriveWithTime;
 import frc.robot.Commands.AutoDumpingCommand;
 import frc.robot.Commands.CameraCommand;
 import frc.robot.Commands.ColorSensorPositionCommand;
@@ -68,6 +69,7 @@ public class Robot extends TimedRobot {
 		autoMode.addOption("Center_Cross_and_Dump", AutoMode.Center_Cross_and_Dump); // One option of starting point during Autonomous
     autoMode.addOption("Right_Cross_and_90degreesDump", AutoMode.Right_Cross_and_90degreesDump);// One option
     autoMode.addOption("CrossOnly", AutoMode.CrossOnly);// One option
+    autoMode.addOption("DriveWithTime", AutoMode.DriveWithTime); //Drive with time
     SmartDashboard.putData("Autonomous Modes", autoMode);
     
     judgesTargetColor.setDefaultOption("unknown", 0);
@@ -117,10 +119,17 @@ public class Robot extends TimedRobot {
 
     JoystickButton driveButton2 = new JoystickButton(oi.driveController, RobotMap.BUTTON_2);
     driveButton2.whenPressed(new CameraCommand());
+
+    Robot.oi.frontLeft.setSelectedSensorPosition(0, 0, 0);
+		Robot.oi.frontRight.setSelectedSensorPosition(0, 0, 0);
   }
 
   @Override
   public void robotPeriodic() {
+    int leftPos = Robot.oi.frontLeft.getSelectedSensorPosition(0);
+		int rightPos = Robot.oi.frontRight.getSelectedSensorPosition(0);
+		SmartDashboard.putNumber("left position", leftPos);
+		SmartDashboard.putNumber("right position", rightPos);
     double IR = oi.colorSensor.getIR();
     Color detectedColor = oi.colorSensor.getColor();
     String colorString;
@@ -201,12 +210,13 @@ public class Robot extends TimedRobot {
   /*else*/ if(am == AutoMode.Center_Cross_and_Dump) {
         System.out.println("Option 1 begins!"); //for troubleshoot cuz the robot keeps spinning.
         AutoDriveForward driveCrossTheLine = new AutoDriveForward((-1)*(0.75*robotLength)); // drive backward
-        System.out.println("Crossing-line should be done!"); //for troubleshoot cuz the robot keeps spinning.
+        // System.out.println("Crossing-line should be done!"); //for troubleshoot cuz the robot keeps spinning.
         AutoDriveForward driveToPort = new AutoDriveForward((0.75*robotLength + 120) - (0.5*robotLength + shootDistance));
-
+        var dumpingAuto = new AutoDumpingCommand();
         //Add the actions to the Sequential
         autonomousCommand.addSequential(driveCrossTheLine);
         autonomousCommand.addSequential(driveToPort);
+        autonomousCommand.addSequential(dumpingAuto);
     }
 
     //Option 2
@@ -292,6 +302,19 @@ public class Robot extends TimedRobot {
 
 
      }
+
+
+     //Option 6
+     else if(am == AutoMode.DriveWithTime) {
+      
+      AutoDriveWithTime crossDriveForward = new AutoDriveWithTime();
+  
+      autonomousCommand.addSequential(crossDriveForward);
+  
+  
+       }
+
+
 
     if (autonomousCommand != null){
       autonomousCommand.start();

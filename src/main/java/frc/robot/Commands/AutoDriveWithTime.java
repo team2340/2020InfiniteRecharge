@@ -3,7 +3,7 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class AutoDumpingCommand extends Command {
+public class AutoDriveWithTime extends Command {
 	long startTime = 0;
 	@Override
 	protected void initialize() {
@@ -12,20 +12,20 @@ public class AutoDumpingCommand extends Command {
 		startTime = System.currentTimeMillis();
 	}
 
-	public AutoDumpingCommand() {
-		requires(Robot.dumping);
+	public AutoDriveWithTime() {
+		requires(Robot.drive);
 	}
 
 	@Override
 	protected void execute() {
-		Robot.dumping.dumpingForward(-.5);
-	}
+        Robot.drive.setArcadeSpeed(0, -.6); //Drive straight forward with 0.5 speed
+    }
 
 	@Override
 	protected boolean isFinished() {
-		if (System.currentTimeMillis() >= (startTime + 4000/*the time that the dumping motor runs*/)) {
-			Robot.dumping.dumpingStop();
-			return true;
+		if (System.currentTimeMillis() >= (startTime + 750/*the time that the dumping motor runs*/)) {
+            Robot.drive.setArcadeSpeed(0, 0); //Stop driving
+            return true;
 		}
 		else {
 			return false;

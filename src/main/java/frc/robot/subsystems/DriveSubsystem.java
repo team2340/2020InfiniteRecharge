@@ -38,7 +38,7 @@ public class DriveSubsystem extends Subsystem {
 	public double positionD = 0.0;
 	public double positionF = 0.0;
 //	public float positionPeakOutputVoltage = 3.0f/12.0f;
-	public float positionPeakOutputVoltage = 10.0f/12.0f;
+	public float positionPeakOutputVoltage = 3.0f/12.0f;
 	
 	public double vBusMaxOutput = 1.0; //An output multiplier
 	public double vBusPeakOutputVoltage = 1f; //the peak output (between 0 and 1)
@@ -138,6 +138,7 @@ public class DriveSubsystem extends Subsystem {
 		
 		Robot.oi.frontLeft.setSelectedSensorPosition(0, 0, 0);
 		Robot.oi.frontRight.setSelectedSensorPosition(0, 0, 0);
+		// setBrakeMode(true);
 	}
 	
 	public void setForVBus() {
@@ -147,16 +148,28 @@ public class DriveSubsystem extends Subsystem {
 	    Robot.oi.frontLeft.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
 	    Robot.oi.frontRight.configPeakOutputForward(vBusPeakOutputVoltage,0);
 	    Robot.oi.frontRight.configPeakOutputReverse(-vBusPeakOutputVoltage,0);
-        robotDrive.setMaxOutput(vBusMaxOutput);
-		setArcadeSpeed(0,0);
+		robotDrive.setMaxOutput(vBusMaxOutput);
+		// setBrakeMode(false);
 	}
 	
 	public void setBrakeMode(boolean brake) {
+		if(brake)
+		{
 		Robot.oi.frontRight.setNeutralMode(NeutralMode.Brake);
 		Robot.oi.frontLeft.setNeutralMode(NeutralMode.Brake);
+		Robot.oi.backRight.setNeutralMode(NeutralMode.Brake);
+		Robot.oi.backLeft.setNeutralMode(NeutralMode.Brake);
+		}
+		else{
+			Robot.oi.frontRight.setNeutralMode(NeutralMode.Coast);
+			Robot.oi.frontLeft.setNeutralMode(NeutralMode.Coast);
+			Robot.oi.backRight.setNeutralMode(NeutralMode.Coast);
+			Robot.oi.backLeft.setNeutralMode(NeutralMode.Coast);
+		}
 	}
 	
 	public void setArcadeSpeed(double x, double y){
+		setForVBus();
 		robotDrive.arcadeDrive(-y, x);
 	}
 }

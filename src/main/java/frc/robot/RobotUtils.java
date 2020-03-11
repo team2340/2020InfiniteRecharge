@@ -15,7 +15,8 @@ public class RobotUtils {
 		Center_Cross_and_Dump,
 		Left_Cross_and_Dump,
 		Right_Cross_and_90degreesDump,
-		CrossOnly
+		CrossOnly,
+		DriveWithTime
 	}
 
 	
@@ -32,7 +33,7 @@ public class RobotUtils {
 		heightOfRobotArms = _heightOfRobotArms;
 	}
 	public static double getEncPositionFromIN(double distanceInInches) {
-		return (distanceInInches/(wheelDiameter * Math.PI))*470; //Create a function to do the inverse thing from enc to in
+		return (distanceInInches/(wheelDiameter * Math.PI))*306; //Create a function to do the inverse thing from enc to in
 	}
 	
 	public static double getLengthOfRobot() {
