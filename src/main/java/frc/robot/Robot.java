@@ -82,9 +82,10 @@ public class Robot extends TimedRobot {
 
     RobotUtils.lengthOfRobot(30.25);
     RobotUtils.widthOfRobot(37);
-    //oi.gyro = new ADXRS450_Gyro();
+    RobotUtils.setWheelDiameter(4);
+    oi.gyro = new ADXRS450_Gyro();
     //TODO: Joy needs check: FRC says it creates an ADXRS450_Gyro object on the MXP SPI port
-    Gyro gyro = new ADXRS450_Gyro(/*SPI.Port.kMXP*/);
+    //Gyro gyro = new ADXRS450_Gyro(/*SPI.Port.kMXP*/);
     drive = new DriveSubsystem();
     controlPanel = new ControlPanelSubsystem();
     dumping = DumpingSubsystem.getInstance();
@@ -285,7 +286,7 @@ public class Robot extends TimedRobot {
     // Last choice!
     else if(am == AutoMode.CrossOnly) {
       
-    AutoDriveForward crossDriveForward = new AutoDriveForward (0.75*robotLength);
+    AutoDriveForward crossDriveForward = new AutoDriveForward (0.75*robotLength/*Should see it moves 22.6875 in*/);
 
     autonomousCommand.addSequential(crossDriveForward);
 

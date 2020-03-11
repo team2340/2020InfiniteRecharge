@@ -14,7 +14,9 @@ public class AutoDriveForward extends Command {
 
 	public AutoDriveForward(double howFar /*unit: inches*/ ) {
 		requires(Robot.drive);
-		distance = howFar-(.5*RobotUtils.getLengthOfRobot());
+		distance = howFar/*-(.5*RobotUtils.getLengthOfRobot())*/;
+		SmartDashboard.putNumber("distance ", distance);
+		
 	}
 
 	@Override
@@ -27,6 +29,7 @@ public class AutoDriveForward extends Command {
 //		Robot.drive.move(desiredSpot);
 		Robot.oi.frontLeft.set(ControlMode.Position, desiredSpot);
 		Robot.oi.frontRight.set(ControlMode.Position, -desiredSpot);
+		SmartDashboard.putNumber("desired position", desiredSpot);
 	}
 
 	@Override

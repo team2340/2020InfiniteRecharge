@@ -1,7 +1,7 @@
 package frc.robot;
 
 public class RobotUtils {
-	private static double wheelDiameter = 6;
+	private static double wheelDiameter = 4;
 	private static double lengthOfRobot = 33;
 	private static double widthOfRobot = 28;
 	private static double heightOfRobotArms = 0;

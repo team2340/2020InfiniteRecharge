@@ -36,7 +36,7 @@ public class ColorSensorRotationCommand extends Command {
 	protected void execute() {
 
 		//rotates
-		Robot.controlPanel.controlPanelForward();
+		Robot.controlPanel.controlPanelForward(.1);
 
 		// Sees the current new color
 		detectedColor = matchTheColor();

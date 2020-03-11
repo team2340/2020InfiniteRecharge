@@ -42,12 +42,8 @@ public class ControlPanelSubsystem extends Subsystem {
 		}
     }
 
-    public void controlPanelForward(){
-        Robot.oi.controlPanel.set(.1);
-    }
-
-    public void controlPanelReverse(){
-        Robot.oi.controlPanel.set(-.1);
+    public void controlPanelForward(double speed){
+        Robot.oi.controlPanel.set(speed);
     }
     
     public void controlPanelStop(){

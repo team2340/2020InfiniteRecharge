@@ -32,12 +32,16 @@ public class ColorSensorPositionCommand extends Command {
         //the color sequence on the panel (clockwise) would be:
         //yellow -> red -> green -> blue.
 
-        //targetColor = getInput
+        //targetColor is getInput
 
         judgesTargetColor = (Integer) Robot.judgesTargetColor.getSelected();
 
         //this converts the color assigned by the judges to the color that should be targeted by our sensor.
-        if(judgesTargetColor == yellow){
+        if(judgesTargetColor == blue){
+            ourTargetColor = red;
+        }
+        else if(judgesTargetColor == yellow){       
+
             ourTargetColor = green;
         }
         else if(judgesTargetColor == red){
@@ -45,9 +49,6 @@ public class ColorSensorPositionCommand extends Command {
         }
         else if(judgesTargetColor == green){
             ourTargetColor = yellow;
-        }
-        else if(judgesTargetColor == blue){
-            ourTargetColor = red;
         }
         System.out.println("OurTargetColor is " + ourTargetColor);
 
@@ -77,11 +78,11 @@ public class ColorSensorPositionCommand extends Command {
 	@Override
 	protected void execute() {
         if (wedgeNumber < 0){
-            Robot.controlPanel.controlPanelReverse();
+            Robot.controlPanel.controlPanelForward(-.05);
             System.out.println("ControlPanel----Reverse");
         }
         else if (wedgeNumber > 0){
-            Robot.controlPanel.controlPanelForward();
+            Robot.controlPanel.controlPanelForward(.05);
             System.out.println("ControlPanel----Forward");
         }
 

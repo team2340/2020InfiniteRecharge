@@ -22,7 +22,7 @@ public class DriveSubsystem extends Subsystem {
 	public double speedF = 0.001;
 	public double speedPeakOutputVoltage = 1f;
 	
-	public double positionP = 0.08525; //25% power at 3000 error ((%*1023)/desired error)- increases power or drecers error ( bigger nubmer, closere to one) pos- 15% power at 1024/)
+	public double positionP = 5 ; //25% power at 3000 error ((%*1023)/desired error)- increases power or drecers error ( bigger nubmer, closere to one) pos- 15% power at 1024/)
 //	public double positionP = 0.127875; // 25% power at 2000 error
 //	public double positionP = 0.25575; // 25% power at 1000 error              //3000 should be smaller
 //	public double positionP = 2/*0.5115*/; // 50% power at 1000 error
@@ -134,7 +134,10 @@ public class DriveSubsystem extends Subsystem {
 	    Robot.oi.frontRight.configPeakOutputForward(positionPeakOutputVoltage,0);
 	    Robot.oi.frontRight.configPeakOutputReverse(-positionPeakOutputVoltage,0);
 	    Robot.oi.frontRight.setSelectedSensorPosition(0,0,0);
-	    Robot.oi.frontLeft.setSelectedSensorPosition(0,0,0);
+		Robot.oi.frontLeft.setSelectedSensorPosition(0,0,0);
+		
+		Robot.oi.frontLeft.setSelectedSensorPosition(0, 0, 0);
+		Robot.oi.frontRight.setSelectedSensorPosition(0, 0, 0);
 	}
 	
 	public void setForVBus() {
